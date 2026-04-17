@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { UploadCloud, X, GripVertical } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -46,16 +46,12 @@ export default function ImageUploader({ propertyId, value, onChange }: Props) {
     setUploading(false)
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleDrop = useCallback(
-    async (e: React.DragEvent) => {
-      e.preventDefault()
-      setDraggingOver(false)
-      const files = Array.from(e.dataTransfer.files)
-      await uploadFiles(files)
-    },
-    [value]
-  )
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDraggingOver(false)
+    const files = Array.from(e.dataTransfer.files)
+    await uploadFiles(files)
+  }
 
   function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return
