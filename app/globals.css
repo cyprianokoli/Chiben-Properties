@@ -2,26 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400;1,9..40,500;1,9..40,600;1,9..40,700&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-page:            #F5F4F0;
+  --bg-surface:         #FFFFFF;
+  --bg-elevated:        #EEECE6;
+  --bg-overlay:         rgba(0, 0, 0, 0.04);
+
+  --border:             rgba(0, 0, 0, 0.08);
+  --border-gold:        rgba(184, 146, 58, 0.35);
+
+  --text-primary:       #0F1117;
+  --text-secondary:     #4A4B55;
+  --text-muted:         #8A8B96;
+
+  --accent:             #B8923A;
+  --accent-hover:       #A07C2C;
+  --accent-bg:          rgba(184, 146, 58, 0.08);
+
+  --btn-primary-bg:     #B8923A;
+  --btn-primary-text:   #FFFFFF;
+  --btn-ghost-bg:       rgba(0, 0, 0, 0.04);
+  --btn-ghost-text:     #0F1117;
+  --btn-ghost-border:   rgba(0, 0, 0, 0.12);
+
+  --status-available-text: #166534;
+  --status-available-bg:   #DCFCE7;
+  --status-offer-text:     #92400E;
+  --status-offer-bg:       #FEF3C7;
+  --status-sold-text:      #374151;
+  --status-sold-bg:        #F3F4F6;
+  --status-new-text:       #7A5A1A;
+  --status-new-bg:         #FEF9EC;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme="dark"] {
+  --bg-page:            #0F1117;
+  --bg-surface:         #1A1D27;
+  --bg-elevated:        #21253A;
+  --bg-overlay:         rgba(255, 255, 255, 0.04);
+
+  --border:             rgba(255, 255, 255, 0.08);
+  --border-gold:        rgba(201, 169, 110, 0.4);
+
+  --text-primary:       #F1F0EC;
+  --text-secondary:     #9B9CA6;
+  --text-muted:         #5C5E6B;
+
+  --accent:             #C9A96E;
+  --accent-hover:       #D4B87E;
+  --accent-bg:          rgba(201, 169, 110, 0.08);
+
+  --btn-primary-bg:     #C9A96E;
+  --btn-primary-text:   #0F1117;
+  --btn-ghost-bg:       rgba(255, 255, 255, 0.06);
+  --btn-ghost-text:     #F1F0EC;
+  --btn-ghost-border:   rgba(255, 255, 255, 0.12);
+
+  --status-available-text: #22C55E;
+  --status-available-bg:   rgba(34, 197, 94, 0.12);
+  --status-offer-text:     #F59E0B;
+  --status-offer-bg:       rgba(245, 158, 11, 0.12);
+  --status-sold-text:      #6B7280;
+  --status-sold-bg:        rgba(107, 114, 128, 0.12);
+  --status-new-text:       #C9A96E;
+  --status-new-bg:         rgba(201, 169, 110, 0.12);
 }
+
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
+}
+img, svg, video { transition: none; }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  font-family: 'DM Sans', sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Logo swap */
+.logo-light { display: block; }
+.logo-dark  { display: none;  }
+[data-theme="dark"] .logo-light { display: none;  }
+[data-theme="dark"] .logo-dark  { display: block; }
+
+/* Eyebrow label utility */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+/* Section headings */
+.h1 {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.h2 {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+}
+
+/* Italic accent in headings */
+em {
+  font-style: italic;
+  color: var(--accent);
 }

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="300" height="100">
+  <!-- CHIBEN -->
+  <text 
+    x="150" 
+    y="52" 
+    font-family="Georgia, 'Times New Roman', serif" 
+    font-size="36" 
+    font-weight="700" 
+    fill="#FFFFFF" 
+    text-anchor="middle" 
+    letter-spacing="6"
+  >CHIBEN</text>
+
+  <!-- PROPERTIES -->
+  <text 
+    x="150" 
+    y="78" 
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" 
+    font-size="13" 
+    font-weight="300" 
+    fill="#C9A96E" 
+    text-anchor="middle" 
+    letter-spacing="7"
+  >PROPERTIES</text>
+</svg>
