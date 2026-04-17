@@ -247,4 +247,4 @@ All colours are CSS custom properties in `app/globals.css`. The accent colour is
 
 ---
 
-Built by [Cyco Media](https://cycomedia.com) · © 2024 Chiben Properties
+Built by [Cyco Media](https://cycomedia.com) · © 2026 Chiben Properties
