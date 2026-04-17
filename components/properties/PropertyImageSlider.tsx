@@ -30,7 +30,7 @@ export default function PropertyImageSlider({ images, title, status }: Props) {
     if (touchStartX.current === null) return
     const delta = e.changedTouches[0].clientX - touchStartX.current
     if (Math.abs(delta) > 40) {
-      delta < 0 ? next() : prev()
+      if (delta < 0) { next() } else { prev() }
     }
     touchStartX.current = null
   }
