@@ -149,7 +149,7 @@ export default function LoginPage() {
             Unauthorized access is strictly prohibited.
           </p>
           <p className="text-xs" style={{ color: '#5C5E6B' }}>
-            © 2024 Chiben Properties
+            © 2026 Chiben Properties
           </p>
         </div>
       </div>
