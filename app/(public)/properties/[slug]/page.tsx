@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic'
 
 import Badge, { statusToBadgeVariant } from '@/components/ui/Badge'
 import PropertyGrid from '@/components/properties/PropertyGrid'
+import PropertyImageSlider from '@/components/properties/PropertyImageSlider'
 import ViewingForm from './ViewingForm'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/utils'
@@ -96,30 +97,13 @@ export default async function PropertyPage({ params }: Props) {
       {/* Hero gallery */}
       <section className="bg-[var(--bg-page)]">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6 md:py-10">
-          {/* Mobile: single image with counter */}
-          <div className="md:hidden relative aspect-video rounded-card overflow-hidden bg-[var(--bg-elevated)]">
-            {allImages[0] ? (
-              <Image
-                src={allImages[0]}
-                alt={property.title}
-                fill
-                sizes="100vw"
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm text-[var(--text-muted)]">No photos available</span>
-              </div>
-            )}
-            <div className="absolute top-3 left-3">
-              <Badge variant={badge} />
-            </div>
-            {allImages.length > 1 && (
-              <div className="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs text-white">
-                1 / {allImages.length}
-              </div>
-            )}
+          {/* Mobile: swipeable image slider */}
+          <div className="md:hidden">
+            <PropertyImageSlider
+              images={allImages}
+              title={property.title}
+              status={property.status}
+            />
           </div>
 
           {/* Desktop: gallery grid */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -77,7 +77,9 @@ export default function PropertyForm({ property }: Props) {
   const isEdit = !!property
   const [saving, setSaving] = useState(false)
   const [globalError, setGlobalError] = useState('')
-  const propertyId = property?.id ?? crypto.randomUUID()
+  const [savedSlug, setSavedSlug] = useState<string | null>(null)
+  const propertyIdRef = useRef(property?.id ?? crypto.randomUUID())
+  const propertyId = propertyIdRef.current
 
   const {
     register,
@@ -168,12 +170,77 @@ export default function PropertyForm({ property }: Props) {
       setGlobalError(error.message)
       setSaving(false)
     } else {
-      router.push('/admin/properties')
-      router.refresh()
+      setSavedSlug(data.slug)
+      setSaving(false)
     }
   }
 
   const selectClass = `${fieldClass} cursor-pointer`
+
+  if (savedSlug) {
+    return (
+      <div className="max-w-4xl">
+        <div
+          className="rounded-card p-10 flex flex-col items-center text-center gap-6"
+          style={{ background: 'var(--bg-surface)', border: '1px solid var(--border)' }}
+        >
+          <div
+            className="flex h-16 w-16 items-center justify-center rounded-full"
+            style={{ background: 'rgba(201,169,110,0.12)', border: '1px solid rgba(201,169,110,0.3)' }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-2" style={{ color: 'var(--accent)' }}>
+              {isEdit ? 'Changes Saved' : 'Property Listed'}
+            </p>
+            <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+              {isEdit ? 'Property updated successfully' : 'Property added successfully'}
+            </h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              {isEdit
+                ? 'Your changes have been saved and are now live.'
+                : 'The property is now live and visible to the public.'}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <a
+              href={`/properties/${savedSlug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 rounded-btn px-6 py-2.5 text-sm font-semibold transition-all"
+              style={{ background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)' }}
+            >
+              View Live Listing
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+            <button
+              onClick={() => router.push('/admin/properties')}
+              className="flex items-center justify-center gap-2 rounded-btn px-6 py-2.5 text-sm font-semibold transition-all"
+              style={{ background: 'var(--btn-ghost-bg)', color: 'var(--btn-ghost-text)', border: '1px solid var(--btn-ghost-border)' }}
+            >
+              Back to Properties
+            </button>
+            {!isEdit && (
+              <button
+                onClick={() => setSavedSlug(null)}
+                className="flex items-center justify-center gap-2 rounded-btn px-6 py-2.5 text-sm font-semibold transition-all"
+                style={{ background: 'transparent', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+              >
+                Add Another
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-4xl">

@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Globe, Link2, Share2 } from 'lucide-react'
 
 const propertyLinks = [
   { href: '/properties?type=detached', label: 'Detached Houses' },
@@ -42,28 +41,44 @@ export default function Footer() {
             </p>
             <div className="mt-6 flex gap-3">
               <a
-                href="#"
-                aria-label="Website"
+                href="https://www.instagram.com/chibenproperties"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:text-[#C9A96E]"
                 style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(241,240,236,0.55)' }}
               >
-                <Globe size={16} />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/chibenproperties"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:text-[#C9A96E]"
+                style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(241,240,236,0.55)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/chibenproperties"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:text-[#C9A96E]"
                 style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(241,240,236,0.55)' }}
               >
-                <Link2 size={16} />
-              </a>
-              <a
-                href="#"
-                aria-label="Share"
-                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:text-[#C9A96E]"
-                style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(241,240,236,0.55)' }}
-              >
-                <Share2 size={16} />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect x="2" y="9" width="4" height="12"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
               </a>
             </div>
           </div>
