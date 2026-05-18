@@ -20,11 +20,10 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 const inquiryOptions = [
-  { value: 'general', label: 'General Enquiry' },
-  { value: 'valuation', label: 'Property Valuation' },
-  { value: 'buying', label: 'Buying Enquiry' },
-  { value: 'selling', label: 'Selling Enquiry' },
-  { value: 'lettings', label: 'Lettings Enquiry' },
+  { value: 'investment', label: 'Investment' },
+  { value: 'jv', label: 'JV opportunity' },
+  { value: 'off_market', label: 'Off-market deal' },
+  { value: 'general', label: 'General' },
 ]
 
 export default function ContactForm() {
@@ -37,7 +36,7 @@ export default function ContactForm() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { inquiry_type: 'general' },
+    defaultValues: { inquiry_type: 'investment' },
   })
 
   async function onSubmit(values: FormValues) {
@@ -51,7 +50,7 @@ export default function ContactForm() {
       if (!res.ok) throw new Error('Submission failed')
       setSubmitted(true)
     } catch {
-      setServerError('Something went wrong. Please try again or call us directly.')
+      setServerError('Something went wrong. Please try again or email us directly.')
     }
   }
 
@@ -62,9 +61,11 @@ export default function ContactForm() {
         className="flex flex-col items-center justify-center rounded-card border border-[var(--border)] bg-[var(--bg-page)] p-12 text-center"
       >
         <CheckCircle size={48} className="text-[var(--accent)] mb-4" />
-        <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">Message Sent!</h3>
+        <h3 className="font-serif text-2xl text-[var(--text-primary)] mb-2">
+          Message sent.
+        </h3>
         <p className="text-[var(--text-secondary)] max-w-sm">
-          Thank you for getting in touch. A member of our team will respond within 2 working hours.
+          Thanks for getting in touch. We&apos;ll reply within one business day.
         </p>
       </div>
     )
@@ -75,14 +76,14 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Input
           id="name"
-          label="Full Name"
+          label="Full name"
           placeholder="Your full name"
           error={errors.name?.message}
           {...register('name')}
         />
         <Input
           id="email"
-          label="Email Address"
+          label="Email"
           type="email"
           placeholder="you@example.com"
           error={errors.email?.message}
@@ -100,7 +101,7 @@ export default function ContactForm() {
         />
         <Select
           id="inquiry_type"
-          label="Enquiry Type"
+          label="I'm enquiring about"
           options={inquiryOptions}
           error={errors.inquiry_type?.message}
           {...register('inquiry_type')}
@@ -109,19 +110,17 @@ export default function ContactForm() {
 
       <Textarea
         id="message"
-        label="Your Message"
-        placeholder="Tell us how we can help…"
+        label="Message"
+        placeholder="Tell us a bit about what you have in mind…"
         rows={5}
         error={errors.message?.message}
         {...register('message')}
       />
 
-      {serverError && (
-        <p className="text-sm text-red-500">{serverError}</p>
-      )}
+      {serverError && <p className="text-sm text-red-500">{serverError}</p>}
 
       <Button type="submit" size="lg" disabled={isSubmitting} className="sm:self-start">
-        {isSubmitting ? 'Sending…' : 'Submit Enquiry'}
+        {isSubmitting ? 'Sending…' : 'Send enquiry'}
       </Button>
     </form>
   )

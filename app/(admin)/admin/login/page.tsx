@@ -32,7 +32,7 @@ export default function LoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: '#0F1117' }}
+      style={{ background: '#0F1E47' }}
     >
       <div className="w-full max-w-[440px]">
         <div className="flex flex-col items-center mb-8">
@@ -74,7 +74,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  placeholder="admin@chibenproperties.co.uk"
+                  placeholder="admin@chibenproperties.com"
                   className="h-11 w-full rounded-btn pl-10 pr-4 text-sm focus:outline-none transition-colors"
                   style={{
                     background: '#21253A',

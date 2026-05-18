@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Mail, Phone, ExternalLink } from 'lucide-react'
+import { X, Mail, Phone } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import type { Enquiry } from '@/lib/supabase/types'
 
@@ -13,10 +12,10 @@ interface Props {
 
 function typeLabel(type: string) {
   const map: Record<string, string> = {
+    investment: 'Investment',
+    jv: 'JV Opportunity',
+    off_market: 'Off-Market Deal',
     general: 'General',
-    viewing: 'Viewing Request',
-    valuation: 'Valuation',
-    offer: 'Offer Enquiry',
   }
   return map[type] ?? type
 }
@@ -34,7 +33,7 @@ export default function EnquiriesTable({ enquiries }: Props) {
       return (
         e.name.toLowerCase().includes(q) ||
         e.email.toLowerCase().includes(q) ||
-        (e.property_slug ?? '').toLowerCase().includes(q)
+        (e.message ?? '').toLowerCase().includes(q)
       )
     }
     return true
@@ -59,7 +58,7 @@ export default function EnquiriesTable({ enquiries }: Props) {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Search by name, email, property…"
+          placeholder="Search by name, email, message…"
           className="h-9 rounded-btn border bg-[var(--bg-surface)] px-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none transition-colors"
           style={{ borderColor: 'var(--border)', minWidth: '220px' }}
         />
@@ -70,10 +69,10 @@ export default function EnquiriesTable({ enquiries }: Props) {
           style={{ borderColor: 'var(--border)' }}
         >
           <option value="">All Types</option>
+          <option value="investment">Investment</option>
+          <option value="jv">JV Opportunity</option>
+          <option value="off_market">Off-Market Deal</option>
           <option value="general">General</option>
-          <option value="viewing">Viewing Request</option>
-          <option value="valuation">Valuation</option>
-          <option value="offer">Offer Enquiry</option>
         </select>
       </div>
 
@@ -91,7 +90,7 @@ export default function EnquiriesTable({ enquiries }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  {['Name', 'Email', 'Property', 'Type', 'Date', 'Status'].map(h => (
+                  {['Name', 'Email', 'Type', 'Date', 'Status'].map(h => (
                     <th
                       key={h}
                       className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em]"
@@ -128,13 +127,6 @@ export default function EnquiriesTable({ enquiries }: Props) {
                     </td>
                     <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>
                       {enq.email}
-                    </td>
-                    <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>
-                      {enq.property_slug ? (
-                        <span className="truncate max-w-[140px] block">{enq.property_slug}</span>
-                      ) : (
-                        <span style={{ color: 'var(--text-muted)' }}>—</span>
-                      )}
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -283,23 +275,6 @@ export default function EnquiriesTable({ enquiries }: Props) {
                 </div>
               )}
 
-              {/* Linked property */}
-              {selected.property_slug && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.08em] mb-2" style={{ color: 'var(--text-muted)' }}>
-                    Linked Property
-                  </p>
-                  <Link
-                    href={`/properties/${selected.property_slug}`}
-                    target="_blank"
-                    className="flex items-center gap-2 text-sm transition-colors"
-                    style={{ color: 'var(--accent)' }}
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    {selected.property_slug}
-                  </Link>
-                </div>
-              )}
             </div>
 
             {/* Actions */}

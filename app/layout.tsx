@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -9,10 +9,22 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const dmSerif = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chibenproperties.co.uk"),
-  title: { default: "Chiben Properties", template: "%s | Chiben Properties" },
-  description: "Premium property across the United Kingdom.",
+  metadataBase: new URL("https://chibenproperties.com"),
+  title: {
+    default: "Chiben Properties — UK Property Investment",
+    template: "%s | Chiben Properties",
+  },
+  description:
+    "Chiben Properties Ltd is a UK property investment company acquiring residential assets across Northern England. Income-first. Growth-focused.",
   openGraph: {
     siteName: "Chiben Properties",
     images: ["/images/og/og-default.png"],
@@ -25,15 +37,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('chiben-theme')||'light';document.documentElement.setAttribute('data-theme',t);})();`,
-          }}
-        />
-      </head>
-      <body className={`${dmSans.variable} font-sans antialiased`}>
+    <html lang="en">
+      <body
+        className={`${dmSans.variable} ${dmSerif.variable} font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

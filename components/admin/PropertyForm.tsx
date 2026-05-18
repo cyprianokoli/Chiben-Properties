@@ -13,6 +13,7 @@ import Textarea from '@/components/ui/Textarea'
 import Button from '@/components/ui/Button'
 import KeyFeaturesInput from './KeyFeaturesInput'
 import ImageUploader from './ImageUploader'
+import PortfolioCardPreview from './PortfolioCardPreview'
 
 const schema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -126,6 +127,7 @@ export default function PropertyForm({ property }: Props) {
 
   const images = watch('images')
   const keyFeatures = watch('key_features')
+  const previewValues = watch()
 
   async function onSubmit(data: FormValues) {
     setSaving(true)
@@ -194,26 +196,26 @@ export default function PropertyForm({ property }: Props) {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-2" style={{ color: 'var(--accent)' }}>
-              {isEdit ? 'Changes Saved' : 'Property Listed'}
+              {isEdit ? 'Changes Saved' : 'Deal Added'}
             </p>
             <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-              {isEdit ? 'Property updated successfully' : 'Property added successfully'}
+              {isEdit ? 'Deal updated successfully' : 'Deal added to the portfolio'}
             </h2>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               {isEdit
-                ? 'Your changes have been saved and are now live.'
-                : 'The property is now live and visible to the public.'}
+                ? 'Your changes are now live on /portfolio.'
+                : 'The deal is now live on /portfolio.'}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <a
-              href={`/properties/${savedSlug}`}
+              href="/portfolio"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-btn px-6 py-2.5 text-sm font-semibold transition-all"
               style={{ background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)' }}
             >
-              View Live Listing
+              View on Portfolio
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                 <polyline points="15 3 21 3 21 9"/>
@@ -249,6 +251,24 @@ export default function PropertyForm({ property }: Props) {
           {globalError}
         </div>
       )}
+
+      {/* Live preview */}
+      <PortfolioCardPreview
+        title={previewValues.title}
+        description={previewValues.description}
+        status={previewValues.status}
+        type={previewValues.type}
+        tenure={previewValues.tenure}
+        town={previewValues.town}
+        county={previewValues.county}
+        bedrooms={previewValues.bedrooms}
+        bathrooms={previewValues.bathrooms}
+        square_footage={previewValues.square_footage}
+        price={previewValues.price}
+        price_qualifier={previewValues.price_qualifier}
+        key_features={previewValues.key_features}
+        images={previewValues.images}
+      />
 
       {/* Basic Information */}
       <section
@@ -460,7 +480,7 @@ export default function PropertyForm({ property }: Props) {
             {...register('is_featured')}
           />
           <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-            Feature this property on the homepage
+            Highlight this deal (for future featured slot)
           </span>
         </label>
       </section>

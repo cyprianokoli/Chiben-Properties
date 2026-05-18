@@ -7,10 +7,10 @@ const enquirySchema = z.object({
   name: z.string().min(2).max(100).trim(),
   email: z.string().email().max(254).trim().toLowerCase(),
   phone: z.string().max(30).trim().optional(),
-  inquiry_type: z.enum(['general', 'valuation', 'buying', 'selling', 'lettings', 'viewing', 'offer']).default('general'),
+  inquiry_type: z
+    .enum(['investment', 'jv', 'off_market', 'general'])
+    .default('general'),
   message: z.string().min(10).max(2000).trim(),
-  property_slug: z.string().max(200).trim().optional(),
-  preferred_date: z.string().max(20).trim().optional(),
 })
 
 // ── Simple in-memory rate limiter (5 submissions / 15 min per IP) ─
@@ -67,11 +67,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const { name, email, phone, inquiry_type, message, property_slug, preferred_date } = result.data
-
-  const fullMessage = preferred_date
-    ? `${message}\n\nPreferred viewing date: ${preferred_date}`
-    : message
+  const { name, email, phone, inquiry_type, message } = result.data
 
   const supabase = createClient()
   const { error } = await supabase.from('enquiries').insert({
@@ -79,8 +75,7 @@ export async function POST(req: NextRequest) {
     email,
     phone: phone || null,
     inquiry_type,
-    message: fullMessage,
-    property_slug: property_slug || null,
+    message,
   })
 
   if (error) {

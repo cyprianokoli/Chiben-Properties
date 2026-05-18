@@ -126,9 +126,8 @@ export default async function AdminPropertiesPage({ searchParams }: Props) {
                 {properties.map(p => (
                   <tr
                     key={p.id}
-                    className="transition-colors"
+                    className="transition-colors hover:bg-[var(--bg-elevated)]"
                     style={{ borderBottom: '1px solid var(--border)' }}
-                    onMouseOver={() => {}}
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
