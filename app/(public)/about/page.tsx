@@ -84,7 +84,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl px-4 md:px-6 lg:px-8 py-20 md:py-28 text-center">
           <p className="eyebrow mb-5">Founder</p>
           <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] mb-3">
-            Cyprian Chukwuemeka Okolie
+            Edward Izuchukwu
           </h2>
           <p className="text-sm font-semibold uppercase tracking-[0.15em] text-[var(--accent)] mb-8">
             Founder & Director

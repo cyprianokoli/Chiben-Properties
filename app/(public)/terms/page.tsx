@@ -25,7 +25,7 @@ export default function TermsPage() {
       <p>
         This website is operated by <strong>Chiben Properties Ltd</strong>, a
         private limited company registered in England &amp; Wales (company
-        number: <strong>[COMPANY NUMBER]</strong>), registered office at Bartle
+        number: <strong>16819031</strong>), registered office at Bartle
         House, Oxford Court, Manchester, M2 3WQ. Contact:{' '}
         <a href="mailto:info@chibenproperties.com">info@chibenproperties.com</a>.
       </p>

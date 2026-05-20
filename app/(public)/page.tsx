@@ -3,19 +3,29 @@ import { ArrowRight, TrendingUp, Building2, Hammer } from 'lucide-react'
 import type { Metadata } from 'next'
 import Button from '@/components/ui/Button'
 import CTABanner from '@/components/ui/CTABanner'
+import { createClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Chiben Properties — UK Property Investment',
   description:
-    'UK property investment company acquiring residential assets across Northern England. Three live deals. One disciplined strategy.',
+    'UK property investment company acquiring residential assets across Northern England. Live deals across high-yield Northern markets. One disciplined strategy.',
 }
 
-const stats = [
-  { value: '3', label: 'Live Deals' },
-  { value: '3', label: 'UK Markets' },
-  { value: '£1M+', label: 'Target Portfolio' },
-  { value: 'Oct 2025', label: 'Founded' },
-]
+const MIN_DEALS = 3
+
+async function getLiveDealsCount(): Promise<number> {
+  try {
+    const supabase = createClient()
+    const { count } = await supabase
+      .from('properties')
+      .select('*', { count: 'exact', head: true })
+    return Math.max(MIN_DEALS, count ?? 0)
+  } catch {
+    return MIN_DEALS
+  }
+}
 
 const strategies = [
   {
@@ -99,7 +109,17 @@ const pillars = [
   },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const dealCount = await getLiveDealsCount()
+  const dealCountLabel = `${dealCount}+`
+
+  const stats = [
+    { value: dealCountLabel, label: 'Live Deals' },
+    { value: '3', label: 'UK Markets' },
+    { value: '£1M+', label: 'Target Portfolio' },
+    { value: 'Oct 2025', label: 'Founded' },
+  ]
+
   return (
     <>
       {/* Hero — navy */}
@@ -116,7 +136,7 @@ export default function HomePage() {
               A UK property company built for <em>income</em> — and for <em>scale</em>.
             </h1>
             <p className="text-lg md:text-xl text-[var(--text-on-navy-muted)] leading-relaxed mb-10 max-w-2xl">
-              We acquire, refurbish and hold residential assets in high-yield Northern markets. Three live deals. One disciplined strategy. Open to investors and JV partners.
+              We acquire, refurbish and hold residential assets in high-yield Northern markets. {dealCountLabel} live deals. One disciplined strategy. Open to investors and JV partners.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/invest">
@@ -253,7 +273,7 @@ export default function HomePage() {
             <div className="max-w-xl">
               <p className="eyebrow mb-4">Active portfolio</p>
               <h2 className="h2 text-[var(--text-primary)]">
-                Three deals. <em>All in motion.</em>
+                {dealCountLabel} deals. <em>All in motion.</em>
               </h2>
             </div>
             <Link

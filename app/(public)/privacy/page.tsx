@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <p>
         Chiben Properties Ltd (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;)
         is a private limited company registered in England &amp; Wales
-        (company number: <strong>[COMPANY NUMBER]</strong>), with its registered
+        (company number: <strong>16819031</strong>), with its registered
         office at Bartle House, Oxford Court, Manchester, M2 3WQ.
       </p>
       <p>
