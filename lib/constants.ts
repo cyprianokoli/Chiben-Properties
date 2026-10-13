@@ -8,3 +8,13 @@ export const WHATSAPP_URL = `https://wa.me/443300437697?text=${encodeURIComponen
 )}`
 
 export const COMPANY_NUMBER = '16819031'
+
+export const OFFICE_ADDRESS = ['Bartle House, Oxford Court', 'Manchester, M2 3WQ']
+
+// Sourcing fees. Leave as null until the client confirms real figures: the
+// site then says fees are set out in the terms of business instead of
+// publishing a placeholder.
+export const FEES: { service: string; fee: string | null }[] = [
+  { service: 'Sourcing fee', fee: null },
+  { service: 'Refurb oversight (optional)', fee: null },
+]

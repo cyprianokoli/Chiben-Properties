@@ -63,7 +63,6 @@ export default function PortfolioCardPreview(props: Props) {
     bathrooms,
     square_footage,
     price,
-    price_qualifier,
     key_features = [],
     images = [],
   } = props
@@ -86,7 +85,7 @@ export default function PortfolioCardPreview(props: Props) {
   const priceNum = toNumber(price ?? null)
   if (priceNum !== null)
     meta.push({
-      label: price_qualifier || 'Price',
+      label: 'Purchase price',
       value: formatPrice(priceNum),
     })
 

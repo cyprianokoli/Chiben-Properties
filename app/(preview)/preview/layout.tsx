@@ -1,9 +1,14 @@
+import type { Metadata } from 'next'
 import Navbar from '@/components/layout/preview/Navbar'
 import Footer from '@/components/layout/preview/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
 
-// Temporary: wraps /preview in the redesigned header/footer so the owner can
-// review the new homepage without changing the live site.
+// Temporary: the redesigned site lives under /preview for client sign-off,
+// so the live pages stay untouched. Kept out of search results.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
+
 export default function PreviewLayout({ children }: { children: React.ReactNode }) {
   return (
     <>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowUpRight, BedDouble, Bath, Maximize2, MapPin } from 'lucide-react'
 import type { Property } from '@/lib/supabase/types'
 import { getStatusMeta } from '@/lib/propertyStatus'
+import { propertyHref, propertyLocation } from '@/lib/properties'
 import { formatPrice } from '@/lib/utils'
 import { cn } from '@/lib/cn'
 
@@ -13,15 +14,6 @@ interface ShowcaseCardProps {
   sizes: string
   className?: string
   priority?: boolean
-}
-
-export function propertyHref(p: Property) {
-  return `/portfolio#property-${p.id}`
-}
-
-export function propertyLocation(p: Property) {
-  // Dedupe so town === county doesn't read "Hull, Hull"
-  return Array.from(new Set([p.town, p.county].filter(Boolean))).join(', ')
 }
 
 export default function ShowcaseCard({

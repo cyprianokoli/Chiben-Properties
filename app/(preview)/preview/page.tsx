@@ -1,47 +1,31 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import PillLink from '@/components/ui/PillLink'
-import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
 import PropertyShowcase from '@/components/properties/PropertyShowcase'
-import { createClient } from '@/lib/supabase/server'
+import Container from '@/components/site/Container'
+import ClosingCta from '@/components/site/ClosingCta'
+import WhyChiben from '@/components/site/WhyChiben'
 import type { Property } from '@/lib/supabase/types'
-import { WHATSAPP_URL } from '@/lib/constants'
+import { getProperties } from '@/lib/properties'
+import { STEPS, STRATEGIES } from '@/lib/content'
+import { route } from '@/lib/routes'
 
 export const dynamic = 'force-dynamic'
 
-// Temporary preview of the redesigned homepage for client sign-off.
-// Not linked from the live site and kept out of search results.
 export const metadata: Metadata = {
   title: { absolute: 'Chiben Properties | UK Property Deal Sourcing for Investors' },
-  robots: { index: false, follow: false },
   description:
     'We find, vet and secure buy-to-let, HMO and refurb deals for UK and overseas investors across Northern England and the Midlands.',
 }
 
 const HOMEPAGE_LIMIT = 6
-const CTA_HREF = '/contact'
-
-async function getProperties(): Promise<Property[]> {
-  try {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('properties')
-      .select('*')
-      .order('is_featured', { ascending: false })
-      .order('listed_at', { ascending: false })
-      .limit(HOMEPAGE_LIMIT)
-    return (data as Property[] | null) ?? []
-  } catch {
-    return []
-  }
-}
+const CTA_HREF = route('/deal-sourcing#enquire')
 
 // Preview of the multi-listing layouts for sign-off: /preview?showcase=4
 function devPreview(properties: Property[], raw: string | string[] | undefined): Property[] {
-  if (properties.length === 0) return properties
-  const n = Math.min(HOMEPAGE_LIMIT, Math.max(1, Number(Array.isArray(raw) ? raw[0] : raw) || 0))
-  if (!raw || !n) return properties
-  return Array.from({ length: n }, (_, i) => ({ ...properties[i % properties.length], id: `preview-${i}` }))
+  if (properties.length === 0 || !raw) return properties
+  const n = Math.min(HOMEPAGE_LIMIT, Math.max(1, Number(Array.isArray(raw) ? raw[0] : raw) || 1))
+  return Array.from({ length: n }, (_, i) => ({ ...properties[i % properties.length], id: `${properties[i % properties.length].id}-${i}` }))
 }
 
 const stats = [
@@ -49,69 +33,13 @@ const stats = [
   { value: 'Oct 2025', label: 'Founded' },
 ]
 
-const steps = [
-  {
-    title: 'Tell us your goals.',
-    body: 'Budget, strategy and timeline on a free 20-minute call.',
-  },
-  {
-    title: 'We source and vet.',
-    body: 'We find deals, check the numbers and comparables, and send you a full deal pack.',
-  },
-  {
-    title: 'You decide.',
-    body: "No pressure. If a deal isn't right, we keep looking.",
-  },
-  {
-    title: 'We support you to completion.',
-    body: 'Introductions to brokers, solicitors and builders, and refurb oversight if you need it.',
-  },
-]
-
-const sourcing = [
-  {
-    title: 'Buy-to-Let',
-    body: 'Long-let homes with stable tenants and solid gross yields.',
-  },
-  {
-    title: 'HMOs',
-    body: 'Higher rent per property, run by vetted local management.',
-  },
-  {
-    title: 'Refurb and flips',
-    body: 'Below-market stock with a clear, costed refurb plan and exit.',
-  },
-]
-
-const reasons = [
-  {
-    title: 'We buy what we source.',
-    body: 'We own and run an HMO in Hull, so we judge deals as owners, not salespeople.',
-  },
-  {
-    title: 'Numbers first.',
-    body: 'Every deal pack uses conservative assumptions, not best case.',
-  },
-  {
-    title: 'Built for overseas buyers.',
-    body: 'We work across time zones and keep you updated on WhatsApp.',
-  },
-  {
-    title: 'Clear fees.',
-    body: 'You see our fee before you commit to anything.',
-  },
-]
-
-function Container({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 ${className}`}>{children}</div>
-}
-
 interface Props {
   searchParams: { showcase?: string | string[] }
 }
 
 export default async function PreviewHomePage({ searchParams }: Props) {
-  const properties = devPreview(await getProperties(), searchParams.showcase)
+  const { properties: listed } = await getProperties({ limit: HOMEPAGE_LIMIT })
+  const properties = devPreview(listed, searchParams.showcase)
 
   return (
     <>
@@ -149,7 +77,7 @@ export default async function PreviewHomePage({ searchParams }: Props) {
                 <PillLink href={CTA_HREF} size="md">
                   Find Me a Deal
                 </PillLink>
-                <PillLink href="/portfolio" variant="outline" size="md" arrow={false}>
+                <PillLink href={route('/portfolio')} variant="outline" size="md" arrow={false}>
                   See Our Portfolio
                 </PillLink>
               </div>
@@ -207,7 +135,7 @@ export default async function PreviewHomePage({ searchParams }: Props) {
                   Real figures only. We add new deals once they complete.
                 </p>
               </div>
-              <PillLink href="/portfolio" variant="outline" size="md" className="self-start md:self-auto">
+              <PillLink href={route('/portfolio')} variant="outline" size="md" className="self-start md:self-auto">
                 View Portfolio
               </PillLink>
             </div>
@@ -228,7 +156,7 @@ export default async function PreviewHomePage({ searchParams }: Props) {
           </div>
 
           <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-            {steps.map((s, i) => (
+            {STEPS.map((s, i) => (
               <li
                 key={s.title}
                 className="flex flex-col rounded-xl2 border border-[var(--line)] bg-[var(--n-50)] p-6 md:p-7"
@@ -267,7 +195,7 @@ export default async function PreviewHomePage({ searchParams }: Props) {
             </div>
 
             <ul className="flex flex-col border-t border-[var(--line)] lg:self-end">
-              {sourcing.map((s, i) => (
+              {STRATEGIES.map((s, i) => (
                 <li key={s.title} className="grid grid-cols-[44px_1fr] gap-4 border-b border-[var(--line)] py-7 md:py-9">
                   <span className="pt-1.5 text-sm font-semibold text-[var(--text-3)]">
                     {String(i + 1).padStart(2, '0')}
@@ -285,84 +213,9 @@ export default async function PreviewHomePage({ searchParams }: Props) {
         </Container>
       </section>
 
-      {/* ── Why Chiben (dark band) ───────────────────────── */}
-      <section className="bg-white" aria-labelledby="why-chiben">
-        <Container className="py-16 md:py-24">
-          <div className="on-dark relative overflow-hidden rounded-xl2 bg-[var(--ink)] px-6 py-12 text-[var(--text-on-dark)] md:rounded-xl3 md:px-12 md:py-16">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[var(--brand-blue)] opacity-25 blur-[120px]"
-            />
-            <div className="relative max-w-2xl">
-              <p className="kicker kicker-on-dark mb-4">Why Chiben</p>
-              <h2 id="why-chiben" className="title">
-                We judge deals as <em>owners,</em> not salespeople.
-              </h2>
-            </div>
+      <WhyChiben />
 
-            <div className="relative mt-12 grid grid-cols-1 gap-y-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0">
-              {reasons.map((r, i) => (
-                <div
-                  key={r.title}
-                  className={`sm:pr-8 lg:px-8 ${i === 0 ? 'lg:pl-0' : 'lg:border-l lg:border-[var(--line-on-dark)]'}`}
-                >
-                  <h3 className="font-serif text-2xl leading-tight">{r.title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-on-dark-2)]">{r.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* ── Closing CTA ──────────────────────────────────── */}
-      <section className="bg-white" aria-labelledby="closing-cta">
-        <Container className="pb-16 md:pb-24">
-          <div className="on-dark relative isolate overflow-hidden rounded-xl2 md:rounded-xl3">
-            <Image
-              src="/images/brand/terrace-redbrick.jpg"
-              alt=""
-              fill
-              sizes="(max-width: 1280px) 100vw, 1216px"
-              className="-z-10 object-cover"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10"
-              style={{
-                background:
-                  'linear-gradient(90deg, rgba(14,17,22,0.96) 0%, rgba(14,17,22,0.85) 50%, rgba(14,17,22,0.5) 100%)',
-              }}
-            />
-
-            <div className="px-6 py-14 md:px-14 md:py-20">
-              <div className="max-w-xl text-[var(--text-on-dark)]">
-                <h2 id="closing-cta" className="title">
-                  Ready to buy your next <em>UK property?</em>
-                </h2>
-                <p className="mt-5 text-base leading-relaxed text-[var(--text-on-dark-2)] md:text-lg">
-                  Tell us what you&apos;re looking for and we&apos;ll show you what&apos;s out there.
-                </p>
-                <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <PillLink href={CTA_HREF} variant="light" size="md">
-                    Book a Free Call
-                  </PillLink>
-                  <PillLink
-                    href={WHATSAPP_URL}
-                    external
-                    variant="outline-on-dark"
-                    size="md"
-                    arrow={false}
-                    icon={<WhatsAppIcon size={18} className="text-[var(--whatsapp)]" />}
-                  >
-                    Message us on WhatsApp
-                  </PillLink>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ClosingCta flushTop />
     </>
   )
 }

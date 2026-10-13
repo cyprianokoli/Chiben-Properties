@@ -35,6 +35,9 @@ const schema = z.object({
   epc_rating: z.string(),
   council_tax_band: z.string(),
   local_authority: z.string(),
+  monthly_rent: z.string(),
+  refurb_cost: z.string(),
+  gross_yield: z.string(),
   description: z.string(),
   key_features: z.array(z.string()),
   images: z.array(z.string()),
@@ -111,6 +114,9 @@ export default function PropertyForm({ property }: Props) {
       epc_rating: property?.epc_rating ?? '',
       council_tax_band: property?.council_tax_band ?? '',
       local_authority: property?.local_authority ?? '',
+      monthly_rent: property?.monthly_rent != null ? String(property.monthly_rent) : '',
+      refurb_cost: property?.refurb_cost != null ? String(property.refurb_cost) : '',
+      gross_yield: property?.gross_yield != null ? String(property.gross_yield) : '',
       description: property?.description ?? '',
       key_features: property?.key_features ?? [],
       images: property?.images ?? [],
@@ -136,7 +142,8 @@ export default function PropertyForm({ property }: Props) {
 
     const payload = {
       title: data.title,
-      slug: data.slug,
+      // Keep URLs clean: "Hull BTL " → "hull-btl"
+      slug: slugify(data.slug) || slugify(data.title),
       price: numOrNull(data.price),
       price_qualifier: data.price_qualifier,
       status: data.status,
@@ -161,6 +168,22 @@ export default function PropertyForm({ property }: Props) {
       cover_image: data.images[0] ?? null,
     }
 
+    // Deal figures (monthly_rent / refurb_cost / gross_yield) need the
+    // 20261013_property_figures migration. Only send them when a value is set
+    // or the column already exists on the row, so saving still works before
+    // the migration has been run.
+    const figures: Record<string, number | null> = {
+      monthly_rent: numOrNull(data.monthly_rent),
+      refurb_cost: numOrNull(data.refurb_cost),
+      gross_yield: numOrNull(data.gross_yield),
+    }
+    for (const [key, value] of Object.entries(figures)) {
+      const columnExists = property != null && key in property
+      if (value !== null || columnExists) {
+        ;(payload as Record<string, unknown>)[key] = value
+      }
+    }
+
     let error
     if (isEdit) {
       ;({ error } = await supabase.from('properties').update(payload).eq('id', property.id))
@@ -172,7 +195,7 @@ export default function PropertyForm({ property }: Props) {
       setGlobalError(error.message)
       setSaving(false)
     } else {
-      setSavedSlug(data.slug)
+      setSavedSlug(payload.slug)
       setSaving(false)
     }
   }
@@ -296,23 +319,14 @@ export default function PropertyForm({ property }: Props) {
               {...register('slug')}
             />
           </FieldGroup>
-          <FieldGroup label="Price (GBP)">
+          <FieldGroup label="Purchase Price (GBP)">
             <input
               type="number"
               className={fieldClass}
               style={{ borderColor: 'var(--border)' }}
-              placeholder="750000"
+              placeholder="135000"
               {...register('price')}
             />
-          </FieldGroup>
-          <FieldGroup label="Price Qualifier">
-            <select className={selectClass} style={{ borderColor: 'var(--border)' }} {...register('price_qualifier')}>
-              <option>Guide Price</option>
-              <option>Asking Price</option>
-              <option>Offers Over</option>
-              <option>Offers In Excess Of</option>
-              <option>POA</option>
-            </select>
           </FieldGroup>
           <FieldGroup label="Status">
             <select className={selectClass} style={{ borderColor: 'var(--border)' }} {...register('status')}>
@@ -402,6 +416,26 @@ export default function PropertyForm({ property }: Props) {
           </FieldGroup>
           <div className="col-span-2">
             <Input label="Local Authority" id="local_authority" placeholder="Royal Borough of Kensington" {...register('local_authority')} />
+          </div>
+        </div>
+
+        <div className="pt-2">
+          <p className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
+            Deal figures
+          </p>
+          <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+            Shown on the homepage track-record card. Real figures only — leave blank to hide.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+            <FieldGroup label="Refurb Cost (£)">
+              <input type="number" min={0} step="any" className={fieldClass} style={{ borderColor: 'var(--border)' }} {...register('refurb_cost')} />
+            </FieldGroup>
+            <FieldGroup label="Monthly Rent (£)">
+              <input type="number" min={0} step="any" className={fieldClass} style={{ borderColor: 'var(--border)' }} {...register('monthly_rent')} />
+            </FieldGroup>
+            <FieldGroup label="Gross Yield (%)">
+              <input type="number" min={0} step="0.01" className={fieldClass} style={{ borderColor: 'var(--border)' }} {...register('gross_yield')} />
+            </FieldGroup>
           </div>
         </div>
       </section>

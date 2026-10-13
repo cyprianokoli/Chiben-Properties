@@ -1,28 +1,17 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { Property } from '@/lib/supabase/types'
-import { formatPrice } from '@/lib/utils'
 import { cn } from '@/lib/cn'
-import ShowcaseCard, { propertyHref } from './ShowcaseCard'
+import ShowcaseCard from './ShowcaseCard'
+import { dealFigures, propertyHref } from '@/lib/properties'
 
 interface PropertyShowcaseProps {
   properties: Property[]
 }
 
-// Repairs UTF-8 text that was saved as Latin-1 (e.g. "Â£1,800" → "£1,800")
-function fixEncoding(text: string) {
-  return text
-    .replace(/Â£/g, '£')
-    .replace(/â€™/g, '’')
-    .replace(/â€“/g, '–')
-    .replace(/â€”/g, '—')
-    .replace(/â€œ|â€\u009d/g, '"')
-    .replace(/Â /g, ' ')
-}
-
 function summary(description: string | null) {
   if (!description) return null
-  const paras = fixEncoding(description)
+  const paras = description
     .split(/\n\s*\n/)
     .map((s) => s.trim())
     .filter(Boolean)
@@ -32,16 +21,7 @@ function summary(description: string | null) {
 }
 
 function CaseStudy({ property: p }: { property: Property }) {
-  const figures: { label: string; value: string }[] = []
-  if (p.price != null) figures.push({ label: 'Purchase price', value: formatPrice(p.price) })
-  if (p.refurb_cost != null) figures.push({ label: 'Refurb cost', value: formatPrice(p.refurb_cost) })
-  if (p.monthly_rent != null)
-    figures.push({ label: 'Monthly rent', value: formatPrice(p.monthly_rent) })
-  if (p.gross_yield != null)
-    figures.push({
-      label: 'Gross yield',
-      value: `${Number(p.gross_yield).toLocaleString('en-GB', { maximumFractionDigits: 2 })}%`,
-    })
+  const figures = dealFigures(p)
 
   const facts = [p.type, p.bedrooms != null ? `${p.bedrooms} bedrooms` : null, p.tenure]
     .filter(Boolean)

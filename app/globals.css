@@ -203,6 +203,9 @@ body {
 }
 .on-dark .title em,
 .on-dark .display em { color: var(--brand-blue-light); }
+/* Serif headings in the new design that aren't .title/.display */
+.font-serif em.em-blue { color: var(--brand-blue); }
+.font-serif em.em-blue-light { color: var(--brand-blue-light); }
 
 /* Cut-out tab in the bottom-right corner of the hero image.
    ::before / ::after draw the two concave corners. */
@@ -287,3 +290,17 @@ body {
 }
 .legal-prose .callout p:last-child { margin-bottom: 0; }
 .legal-prose .callout strong { color: var(--accent); }
+
+/* Redesigned legal pages: same prose, new palette */
+.site-prose { color: var(--text-2); }
+.site-prose h2,
+.site-prose h3,
+.site-prose strong { color: var(--text-1); }
+.site-prose a { color: var(--brand-blue); }
+.site-prose a:hover { color: var(--brand-blue-hover); }
+.site-prose hr { border-top-color: var(--line); }
+.site-prose .callout {
+  border-color: var(--line);
+  background: var(--n-50);
+}
+.site-prose .callout strong { color: var(--brand-blue); }

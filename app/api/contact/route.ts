@@ -1,45 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { getClientIp, isRateLimited } from '@/lib/rateLimit'
+import { sendEnquiryEmail } from '@/lib/email'
+
+const TYPE_LABELS: Record<string, string> = {
+  deal_sourcing: 'Finding a property',
+  off_market: 'Selling / off-market property',
+  investment: 'Investment',
+  jv: 'JV opportunity',
+  general: 'General',
+}
 
 // ── Input validation schema ──────────────────────────────
 const enquirySchema = z.object({
-  name: z.string().min(2).max(100).trim(),
-  email: z.string().email().max(254).trim().toLowerCase(),
-  phone: z.string().max(30).trim().optional(),
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().toLowerCase().email().max(254),
+  phone: z.string().trim().max(30).optional(),
   inquiry_type: z
-    .enum(['investment', 'jv', 'off_market', 'general'])
+    .enum(['deal_sourcing', 'off_market', 'investment', 'jv', 'general'])
     .default('general'),
-  message: z.string().min(10).max(2000).trim(),
+  message: z.string().trim().min(10).max(2000),
+  // Honeypot: real visitors never see or fill this field
+  company: z.string().max(0).optional(),
 })
-
-// ── Simple in-memory rate limiter (5 submissions / 15 min per IP) ─
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
-const RATE_LIMIT = 5
-const WINDOW_MS = 15 * 60 * 1000
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateLimitMap.get(ip)
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS })
-    return false
-  }
-
-  if (entry.count >= RATE_LIMIT) return true
-
-  entry.count++
-  return false
-}
-
-function getClientIp(req: NextRequest): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
-    req.headers.get('x-real-ip') ??
-    'unknown'
-  )
-}
 
 // ── Route handler ────────────────────────────────────────
 export async function POST(req: NextRequest) {
@@ -82,6 +66,18 @@ export async function POST(req: NextRequest) {
     console.error('Enquiry insert error:', error.message)
     return NextResponse.json({ error: 'Failed to save enquiry' }, { status: 500 })
   }
+
+  await sendEnquiryEmail({
+    subject: `New enquiry: ${TYPE_LABELS[inquiry_type]} from ${name}`,
+    replyTo: email,
+    rows: [
+      { label: 'Name', value: name },
+      { label: 'Email', value: email },
+      { label: 'Phone', value: phone },
+      { label: 'Enquiry', value: TYPE_LABELS[inquiry_type] },
+    ],
+    message,
+  })
 
   return NextResponse.json({ success: true })
 }

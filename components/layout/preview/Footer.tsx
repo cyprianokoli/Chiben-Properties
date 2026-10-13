@@ -1,4 +1,5 @@
-// Temporary copy of the redesigned footer, used only by /preview for client sign-off.
+// Redesigned footer. Links go through route() so they stay inside /preview
+// while the new pages are reviewed.
 import Image from 'next/image'
 import Link from 'next/link'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
@@ -9,23 +10,25 @@ import {
   PHONE_TEL,
   WHATSAPP_URL,
 } from '@/lib/constants'
+import { route } from '@/lib/routes'
 
 const sourceLinks = [
-  { href: '/what-we-do#buy-to-let', label: 'Buy-to-Let' },
-  { href: '/what-we-do#hmo', label: 'HMOs' },
-  { href: '/what-we-do#value-add', label: 'Refurb and flips' },
+  { href: route('/what-we-do#buy-to-let'), label: 'Buy-to-Let' },
+  { href: route('/what-we-do#hmo'), label: 'HMOs' },
+  { href: route('/what-we-do#value-add'), label: 'Refurb and flips' },
+  { href: route('/deal-sourcing'), label: 'Deal Sourcing' },
 ]
 
 const companyLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
+  { href: route('/about'), label: 'About' },
+  { href: route('/portfolio'), label: 'Portfolio' },
+  { href: route('/contact'), label: 'Contact' },
 ]
 
 const legalLinks = [
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/terms', label: 'Terms' },
-  { href: '/cookies', label: 'Cookies' },
+  { href: route('/privacy'), label: 'Privacy' },
+  { href: route('/terms'), label: 'Terms' },
+  { href: route('/cookies'), label: 'Cookies' },
 ]
 
 const linkClass =
@@ -63,7 +66,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr] lg:gap-12">
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
-            <Link href="/preview" aria-label="Chiben Properties home" className="inline-block">
+            <Link href={route('/')} aria-label="Chiben Properties home" className="inline-block">
               <Image
                 src="/images/logo/logo-stacked-light.png"
                 alt="Chiben Properties — Building wealth through property"

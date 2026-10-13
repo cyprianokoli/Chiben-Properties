@@ -266,7 +266,7 @@ export default async function PortfolioPage({ searchParams }: Props) {
                     })
                   if (p.price != null)
                     meta.push({
-                      label: p.price_qualifier ?? 'Price',
+                      label: 'Purchase price',
                       value: formatPrice(p.price),
                     })
 

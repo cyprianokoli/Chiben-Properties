@@ -12,9 +12,10 @@ interface Props {
 
 function typeLabel(type: string) {
   const map: Record<string, string> = {
+    deal_sourcing: 'Deal Sourcing',
     investment: 'Investment',
     jv: 'JV Opportunity',
-    off_market: 'Off-Market Deal',
+    off_market: 'Selling / Off-Market',
     general: 'General',
   }
   return map[type] ?? type
@@ -69,9 +70,10 @@ export default function EnquiriesTable({ enquiries }: Props) {
           style={{ borderColor: 'var(--border)' }}
         >
           <option value="">All Types</option>
+          <option value="deal_sourcing">Deal Sourcing</option>
           <option value="investment">Investment</option>
           <option value="jv">JV Opportunity</option>
-          <option value="off_market">Off-Market Deal</option>
+          <option value="off_market">Selling / Off-Market</option>
           <option value="general">General</option>
         </select>
       </div>

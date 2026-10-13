@@ -7,20 +7,27 @@ import { Menu, X } from 'lucide-react'
 import PillLink from '@/components/ui/PillLink'
 import WhatsAppIcon from '@/components/ui/WhatsAppIcon'
 import { WHATSAPP_URL } from '@/lib/constants'
+import { route } from '@/lib/routes'
 
-// Temporary copy of the redesigned navbar, used only by /preview for client sign-off.
-// "Home" points at /preview so the owner stays on the new design.
-const HOME_HREF = '/preview'
+// Redesigned navbar. Links go through route() so they stay inside /preview
+// while the new pages are reviewed.
+const HOME_HREF = route('/')
 
 const links = [
   { href: HOME_HREF, label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/what-we-do', label: 'What We Do' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
+  { href: route('/about'), label: 'About' },
+  { href: route('/what-we-do'), label: 'What We Do' },
+  { href: route('/portfolio'), label: 'Portfolio' },
+  { href: route('/deal-sourcing'), label: 'Deal Sourcing' },
+  { href: route('/contact'), label: 'Contact' },
 ]
 
-const CTA_HREF = '/contact'
+const CTA_HREF = route('/deal-sourcing#enquire')
+
+function isActive(pathname: string, href: string) {
+  if (href === HOME_HREF) return pathname === href
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 function Logo({ mobile = false }: { mobile?: boolean }) {
   return (
@@ -71,9 +78,9 @@ export default function Navbar() {
             <Logo />
           </Link>
 
-          <nav aria-label="Main" className="hidden lg:flex items-center gap-8">
+          <nav aria-label="Main" className="hidden lg:flex items-center gap-7">
             {links.map((link) => {
-              const active = pathname === link.href
+              const active = isActive(pathname, link.href)
               return (
                 <Link
                   key={link.href}
@@ -133,7 +140,7 @@ export default function Navbar() {
 
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 pt-4 overflow-y-auto">
           {links.map((link) => {
-            const active = pathname === link.href
+            const active = isActive(pathname, link.href)
             return (
               <Link
                 key={link.href}
