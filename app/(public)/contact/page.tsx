@@ -20,7 +20,7 @@ const contactCards = [
   {
     icon: Phone,
     title: 'Phone',
-    lines: ['0330 043 7697'],
+    lines: ['+44 330 043 7697'],
     note: 'Mon–Fri 09:00–18:00',
   },
   {
@@ -133,7 +133,7 @@ export default function ContactPage() {
                   href="tel:+443300437697"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)] hover:gap-3 transition-all"
                 >
-                  0330 043 7697 →
+                  +44 330 043 7697 →
                 </a>
               </div>
             </div>

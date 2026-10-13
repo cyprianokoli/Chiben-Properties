@@ -1,5 +1,5 @@
 export const EMAIL = 'info@chibenproperties.com'
-export const PHONE_DISPLAY = '0330 043 7697'
+export const PHONE_DISPLAY = '+44 330 043 7697'
 export const PHONE_TEL = '+443300437697'
 
 export const WHATSAPP_DISPLAY = '+44 330 043 7697'

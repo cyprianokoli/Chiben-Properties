@@ -117,7 +117,7 @@ export default function Footer() {
                   href="tel:+443300437697"
                   className="transition-colors hover:text-[var(--gold)]"
                 >
-                  0330 043 7697
+                  +44 330 043 7697
                 </a>
               </li>
               <li>

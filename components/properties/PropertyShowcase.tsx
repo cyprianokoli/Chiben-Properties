@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import type { Property } from '@/lib/supabase/types'
 import { cn } from '@/lib/cn'
 import ShowcaseCard from './ShowcaseCard'
-import { dealFigures, propertyHref } from '@/lib/properties'
+import { propertyHref } from '@/lib/properties'
 
 interface PropertyShowcaseProps {
   properties: Property[]
@@ -21,8 +21,6 @@ function summary(description: string | null) {
 }
 
 function CaseStudy({ property: p }: { property: Property }) {
-  const figures = dealFigures(p)
-
   const facts = [p.type, p.bedrooms != null ? `${p.bedrooms} bedrooms` : null, p.tenure]
     .filter(Boolean)
     .join(' · ')
@@ -47,30 +45,12 @@ function CaseStudy({ property: p }: { property: Property }) {
           <p className="mt-5 text-[15px] leading-relaxed text-[var(--text-2)] line-clamp-4">{text}</p>
         )}
 
-        {figures.length > 0 && (
-          <dl
-            className={cn(
-              'mt-7 grid gap-px overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--line)]',
-              figures.length === 1 ? 'grid-cols-1' : 'grid-cols-2'
-            )}
-          >
-            {figures.map((f) => (
-              <div key={f.label} className="bg-[var(--n-50)] p-4 md:p-5">
-                <dt className="text-xs font-medium text-[var(--text-3)]">{f.label}</dt>
-                <dd className="mt-1.5 font-serif text-2xl leading-none text-[var(--text-1)] md:text-[28px]">
-                  {f.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        )}
-
         <div className="mt-auto pt-7">
           <Link
             href={propertyHref(p)}
             className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-blue)] transition-all hover:gap-3"
           >
-            See the full deal <ArrowRight size={16} aria-hidden />
+            See the full case study <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
       </div>

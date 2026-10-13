@@ -81,19 +81,17 @@ export const VETTING = [
   },
 ]
 
+export const FOUNDERS_PHOTO = '/images/team/founders.jpg'
+
 export const FOUNDERS = [
   {
     name: 'Edward Emeka',
     role: 'Co-Founder and Director',
-    // Placeholder stock photo until the real headshot arrives
-    photo: '/images/team/placeholder-edward.jpg',
     bio: 'Edward leads deal sourcing and property operations. He holds an MSc in Operations Management and Business Analytics from the University of Salford, and brings a background in operations and logistics from high-capacity events in Manchester. He oversees every deal from analysis to completion.',
   },
   {
     name: 'Dr Valentine Emeka',
     role: 'Co-Founder and Director',
-    // Placeholder stock photo until the real headshot arrives
-    photo: '/images/team/placeholder-valentine.jpg',
     bio: "Valentine is a medical doctor and oversees the company's finances. He brings the discipline and attention to detail of medicine to every investment decision Chiben makes.",
   },
 ]

@@ -4,7 +4,7 @@ import PageHeader from '@/components/site/PageHeader'
 import Container from '@/components/site/Container'
 import ClosingCta from '@/components/site/ClosingCta'
 import WhyChiben from '@/components/site/WhyChiben'
-import { FOUNDERS } from '@/lib/content'
+import { FOUNDERS, FOUNDERS_PHOTO } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -80,25 +80,26 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-            {FOUNDERS.map((f) => (
-              <article key={f.name} className="flex flex-col overflow-hidden rounded-xl2 border border-[var(--line)] bg-[var(--n-50)]">
-                <div className="relative aspect-[4/3] bg-[var(--n-100)] sm:aspect-[5/4]">
-                  <Image
-                    src={f.photo}
-                    alt={`Portrait of ${f.name}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-top"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6 md:p-8">
-                  <h3 className="font-serif text-3xl leading-tight text-[var(--text-1)]">{f.name}</h3>
-                  <p className="mt-1.5 text-sm font-semibold text-[var(--brand-blue)]">{f.role}</p>
-                  <p className="mt-5 text-[15px] leading-relaxed text-[var(--text-2)]">{f.bio}</p>
-                </div>
-              </article>
-            ))}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-xl2 bg-[var(--n-100)] md:aspect-[4/3] lg:sticky lg:top-28 lg:aspect-[8/9]">
+              <Image
+                src={FOUNDERS_PHOTO}
+                alt="Co-founders Edward Emeka and Dr Valentine Emeka"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover object-[center_30%]"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              {FOUNDERS.map((f) => (
+                <article key={f.name} className="border-t border-[var(--line)] py-8 first:border-t-0 first:pt-0 md:py-10">
+                  <h3 className="font-serif text-3xl leading-tight text-[var(--text-1)] md:text-4xl">{f.name}</h3>
+                  <p className="mt-2 text-sm font-semibold text-[var(--brand-blue)]">{f.role}</p>
+                  <p className="mt-5 text-base leading-relaxed text-[var(--text-2)] md:text-[17px]">{f.bio}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </Container>
       </section>

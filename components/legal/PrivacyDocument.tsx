@@ -140,7 +140,7 @@ export default function PrivacyDocument({ Layout, hrefs }: { Layout: LegalLayout
         Bartle House, Oxford Court<br />
         Manchester, M2 3WQ<br />
         <a href="mailto:info@chibenproperties.com">info@chibenproperties.com</a>{' '}
-        · 0330 043 7697
+        · +44 330 043 7697
       </p>
     </Layout>
   )

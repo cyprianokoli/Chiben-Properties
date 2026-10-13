@@ -4,7 +4,6 @@ import { ArrowUpRight, BedDouble, Bath, Maximize2, MapPin } from 'lucide-react'
 import type { Property } from '@/lib/supabase/types'
 import { getStatusMeta } from '@/lib/propertyStatus'
 import { propertyHref, propertyLocation } from '@/lib/properties'
-import { formatPrice } from '@/lib/utils'
 import { cn } from '@/lib/cn'
 
 interface ShowcaseCardProps {
@@ -100,11 +99,6 @@ export default function ShowcaseCard({
           </div>
 
           <div className="flex flex-shrink-0 items-center gap-3">
-            {p.price != null && !featured && (
-              <p className="hidden font-serif text-2xl leading-none sm:block">
-                {formatPrice(p.price)}
-              </p>
-            )}
             <span
               aria-hidden
               className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[var(--ink)] transition-transform duration-200 group-hover:rotate-45"
@@ -113,9 +107,6 @@ export default function ShowcaseCard({
             </span>
           </div>
         </div>
-        {p.price != null && !featured && (
-          <p className="mt-3 font-serif text-xl leading-none sm:hidden">{formatPrice(p.price)}</p>
-        )}
       </div>
       <span className="sr-only">View {p.title} in our portfolio</span>
     </Link>
