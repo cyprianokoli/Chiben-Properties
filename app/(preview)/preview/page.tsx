@@ -145,11 +145,11 @@ export default async function PreviewHomePage({ searchParams }: Props) {
                 the Midlands. We source the deals we&apos;d buy ourselves, and we handle the legwork
                 from search to completion.
               </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <PillLink href={CTA_HREF} size="lg">
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <PillLink href={CTA_HREF} size="md">
                   Find Me a Deal
                 </PillLink>
-                <PillLink href="/portfolio" variant="outline" size="lg" arrow={false} className="justify-center">
+                <PillLink href="/portfolio" variant="outline" size="md" arrow={false}>
                   See Our Portfolio
                 </PillLink>
               </div>
@@ -343,17 +343,16 @@ export default async function PreviewHomePage({ searchParams }: Props) {
                 <p className="mt-5 text-base leading-relaxed text-[var(--text-on-dark-2)] md:text-lg">
                   Tell us what you&apos;re looking for and we&apos;ll show you what&apos;s out there.
                 </p>
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <PillLink href={CTA_HREF} variant="light" size="lg">
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <PillLink href={CTA_HREF} variant="light" size="md">
                     Book a Free Call
                   </PillLink>
                   <PillLink
                     href={WHATSAPP_URL}
                     external
                     variant="outline-on-dark"
-                    size="lg"
+                    size="md"
                     arrow={false}
-                    className="justify-center"
                     icon={<WhatsAppIcon size={18} className="text-[var(--whatsapp)]" />}
                   >
                     Message us on WhatsApp
