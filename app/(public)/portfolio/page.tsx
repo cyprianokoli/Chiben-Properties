@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { Property } from '@/lib/supabase/types'
 import { formatPrice } from '@/lib/utils'
 import CTABanner from '@/components/ui/CTABanner'
+import { getStatusMeta } from '@/lib/propertyStatus'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,32 +35,6 @@ async function getPortfolio(page: number): Promise<{
   } catch {
     return { properties: [], total: 0 }
   }
-}
-
-const statusMeta: Record<
-  string,
-  { label: string; bg: string; text: string }
-> = {
-  available: {
-    label: 'Live',
-    bg: 'var(--status-live-bg)',
-    text: 'var(--status-live-text)',
-  },
-  'under-offer': {
-    label: 'Under Offer',
-    bg: 'var(--status-active-bg)',
-    text: 'var(--status-active-text)',
-  },
-  sold: {
-    label: 'Completed',
-    bg: 'var(--status-progress-bg)',
-    text: 'var(--status-progress-text)',
-  },
-  'off-market': {
-    label: 'Off-Market',
-    bg: 'rgba(15, 30, 71, 0.08)',
-    text: 'var(--navy)',
-  },
 }
 
 function pad(n: number) {
@@ -266,7 +241,7 @@ export default async function PortfolioPage({ searchParams }: Props) {
 
               <div className="space-y-12 md:space-y-16">
                 {properties.map((p, i) => {
-                  const sm = statusMeta[p.status] ?? statusMeta['available']
+                  const sm = getStatusMeta(p.status)
                   const location =
                     [p.town, p.county].filter(Boolean).join(', ') || null
                   const features = (p.key_features ?? []).slice(0, 4)
@@ -300,7 +275,8 @@ export default async function PortfolioPage({ searchParams }: Props) {
                   return (
                     <article
                       key={p.id}
-                      className="rounded-card border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden"
+                      id={`property-${p.id}`}
+                      className="scroll-mt-28 rounded-card border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden"
                     >
                       {/* Header band */}
                       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] border-b border-[var(--border)]">

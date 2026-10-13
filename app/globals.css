@@ -3,7 +3,27 @@
 @tailwind utilities;
 
 :root {
-  /* Brand palette — navy / cream / gold */
+  /* New palette (homepage, header, footer) — ink / brand navy + blue from the logo */
+  --ink:                #0E1116;
+  --ink-soft:           #1A1E26;
+  --brand-navy:         #011F4B;
+  --brand-blue:         #0B44AD;
+  --brand-blue-hover:   #08368A;
+  --brand-blue-light:   #8FB0FF;
+  --brand-blue-bg:      rgba(11, 68, 173, 0.07);
+  --n-0:                #FFFFFF;
+  --n-50:               #F5F6F8;
+  --n-100:              #ECEEF2;
+  --line:               rgba(14, 17, 22, 0.10);
+  --line-on-dark:       rgba(255, 255, 255, 0.12);
+  --text-1:             #0E1116;
+  --text-2:             #4B5262;
+  --text-3:             #6E7483;
+  --text-on-dark:       #F3F4F7;
+  --text-on-dark-2:     rgba(243, 244, 247, 0.68);
+  --whatsapp:           #25D366;
+
+  /* Legacy palette — navy / cream / gold (pages not yet redesigned) */
   --navy-deep:          #0F1E47;
   --navy:               #14224F;
   --navy-soft:          #1B2A5E;
@@ -139,6 +159,72 @@ body {
     radial-gradient(ellipse at top right, rgba(201, 169, 110, 0.10) 0%, transparent 55%),
     var(--navy);
 }
+
+/* ── New design system (homepage, header, footer) ─────────── */
+
+/* Eyebrow with leading rule, e.g. "— How it works" */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brand-blue);
+}
+.kicker::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+.kicker-on-dark { color: var(--brand-blue-light); }
+
+.display {
+  font-family: var(--font-serif), 'DM Serif Display', Georgia, serif;
+  font-size: clamp(36px, 5.2vw, 72px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.title {
+  font-family: var(--font-serif), 'DM Serif Display', Georgia, serif;
+  font-size: clamp(30px, 3.6vw, 50px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.display em,
+.title em {
+  font-style: italic;
+  color: var(--brand-blue);
+}
+.on-dark .title em,
+.on-dark .display em { color: var(--brand-blue-light); }
+
+/* Cut-out tab in the bottom-right corner of the hero image.
+   ::before / ::after draw the two concave corners. */
+.notch {
+  --notch-r: 28px;
+  --notch-bg: #FFFFFF;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: var(--notch-bg);
+  border-top-left-radius: var(--notch-r);
+}
+.notch::before,
+.notch::after {
+  content: '';
+  position: absolute;
+  width: var(--notch-r);
+  height: var(--notch-r);
+  background: radial-gradient(circle at 0 0, transparent calc(var(--notch-r) - 0.5px), var(--notch-bg) var(--notch-r));
+}
+.notch::before { right: 0; top: calc(var(--notch-r) * -1); }
+.notch::after  { left: calc(var(--notch-r) * -1); bottom: 0; }
 
 /* Legal / policy page typography */
 .legal-prose {

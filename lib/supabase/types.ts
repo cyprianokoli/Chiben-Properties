@@ -26,6 +26,10 @@ export interface Property {
   images: string[] | null
   cover_image: string | null
   is_featured: boolean
+  // Deal figures — optional until the 20261013_property_figures migration is run
+  monthly_rent?: number | null
+  refurb_cost?: number | null
+  gross_yield?: number | null
   listed_at: string
   updated_at: string
 }
