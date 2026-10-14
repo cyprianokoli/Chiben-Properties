@@ -37,10 +37,10 @@ export default function LoginPage() {
       <div className="w-full max-w-[440px]">
         <div className="flex flex-col items-center mb-8">
           <Image
-            src="/images/logo/logo-white.svg"
+            src="/images/logo/logo-horizontal-light.png"
             alt="Chiben Properties"
-            width={160}
-            height={50}
+            width={181}
+            height={48}
             priority
           />
           <p className="mt-3 text-sm" style={{ color: '#9B9CA6' }}>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                     border: '1px solid rgba(255,255,255,0.08)',
                     color: '#F1F0EC',
                   }}
-                  onFocus={e => (e.target.style.borderColor = '#C9A96E')}
+                  onFocus={e => (e.target.style.borderColor = '#5B9BFF')}
                   onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
               </div>
@@ -105,7 +105,7 @@ export default function LoginPage() {
                     border: '1px solid rgba(255,255,255,0.08)',
                     color: '#F1F0EC',
                   }}
-                  onFocus={e => (e.target.style.borderColor = '#C9A96E')}
+                  onFocus={e => (e.target.style.borderColor = '#5B9BFF')}
                   onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
                 />
               </div>
@@ -116,16 +116,16 @@ export default function LoginPage() {
                 <input
                   type="checkbox"
                   className="rounded"
-                  style={{ accentColor: '#C9A96E' }}
+                  style={{ accentColor: '#5B9BFF' }}
                 />
                 Keep me signed in
               </label>
               <button
                 type="button"
                 className="text-sm transition-colors"
-                style={{ color: '#C9A96E' }}
+                style={{ color: '#5B9BFF' }}
                 onMouseOver={e => (e.currentTarget.style.color = '#D4B87E')}
-                onMouseOut={e => (e.currentTarget.style.color = '#C9A96E')}
+                onMouseOut={e => (e.currentTarget.style.color = '#5B9BFF')}
               >
                 Forgot password?
               </button>

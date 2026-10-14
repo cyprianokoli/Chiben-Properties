@@ -10,6 +10,16 @@ const nextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      // Old "Invest With Us" page is replaced by Deal Sourcing
+      { source: '/invest', destination: '/deal-sourcing', permanent: true },
+      // The redesign was reviewed under /preview; send old links to the live pages
+      { source: '/preview', destination: '/', permanent: true },
+      { source: '/preview/:path*', destination: '/:path*', permanent: true },
+    ]
+  },
+
   async headers() {
     return [
       {

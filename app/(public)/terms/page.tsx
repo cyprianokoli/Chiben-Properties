@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import LegalPage from '@/components/ui/LegalPage'
+import SiteLegalPage from '@/components/site/SiteLegalPage'
 import TermsDocument from '@/components/legal/TermsDocument'
-import { LIVE_LEGAL_HREFS } from '@/components/legal/types'
+import { route } from '@/lib/routes'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -10,5 +10,10 @@ export const metadata: Metadata = {
 }
 
 export default function TermsPage() {
-  return <TermsDocument Layout={LegalPage} hrefs={LIVE_LEGAL_HREFS} />
+  return (
+    <TermsDocument
+      Layout={SiteLegalPage}
+      hrefs={{ privacy: route('/privacy'), terms: route('/terms'), cookies: route('/cookies') }}
+    />
+  )
 }

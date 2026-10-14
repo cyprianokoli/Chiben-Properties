@@ -2,8 +2,8 @@ import type { LegalHrefs, LegalLayout } from './types'
 
 const LAST_UPDATED = '18 May 2026'
 
-// Shared by the live /cookies page and the redesigned preview page, so the
-// legal text only lives in one place.
+// Legal text for the /cookies page. Layout is passed in so the wrapper can change
+// without touching the policy wording.
 // Takes hrefs like the other documents even though it has no internal links yet
 export default function CookiesDocument({ Layout }: { Layout: LegalLayout; hrefs: LegalHrefs }) {
   return (

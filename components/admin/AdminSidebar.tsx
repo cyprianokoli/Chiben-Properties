@@ -37,10 +37,10 @@ export default function AdminSidebar() {
         style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
       >
         <Image
-          src="/images/logo/logo-white.svg"
+          src="/images/logo/logo-horizontal-light.png"
           alt="Chiben Properties"
-          width={130}
-          height={40}
+          width={136}
+          height={36}
           priority
         />
       </div>
@@ -56,9 +56,9 @@ export default function AdminSidebar() {
               href={href}
               className="flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-sm font-medium transition-all duration-150"
               style={{
-                color: isActive ? '#C9A96E' : '#9B9CA6',
-                background: isActive ? 'rgba(201,169,110,0.08)' : 'transparent',
-                borderLeft: isActive ? '3px solid #C9A96E' : '3px solid transparent',
+                color: isActive ? '#5B9BFF' : '#9B9CA6',
+                background: isActive ? 'rgba(91,155,255,0.10)' : 'transparent',
+                borderLeft: isActive ? '3px solid #5B9BFF' : '3px solid transparent',
               }}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />

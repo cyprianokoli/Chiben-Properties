@@ -1,198 +1,148 @@
-import Link from 'next/link'
-import { Building2, TrendingUp, Hammer } from 'lucide-react'
+import Image from 'next/image'
 import type { Metadata } from 'next'
-import CTABanner from '@/components/ui/CTABanner'
+import PageHeader from '@/components/site/PageHeader'
+import Container from '@/components/site/Container'
+import ClosingCta from '@/components/site/ClosingCta'
+import PillLink from '@/components/ui/PillLink'
+import { STEPS, STRATEGIES, VETTING } from '@/lib/content'
+import { route } from '@/lib/routes'
 
 export const metadata: Metadata = {
   title: 'What We Do',
   description:
-    'Three strategies, run by the same hands. Buy-to-Let, HMO, Value-Add Flips — every deal underwritten before the refurb starts.',
+    'Buy-to-let, HMO and refurb deals sourced and vetted for investors across Northern England and the Midlands, from first call to completion.',
 }
 
-const strategies = [
-  {
-    id: 'buy-to-let',
-    number: '01',
-    icon: Building2,
-    tag: 'Recurring income',
-    name: 'Buy-to-Let',
-    what:
-      'Single-let residential properties in markets where rent covers debt service with margin to spare. Long-term hold, financed on standard BTL mortgages, let to either private tenants or commercial operators (e.g. care home leases).',
-    why:
-      'Predictable monthly income that compounds. Lower management load than HMOs. Easier to scale once the model is repeatable.',
-    current: 'Stoke-on-Trent BTL · Care home tenancy · Fixed monthly rent.',
+const strategyImages: Record<string, { src: string; alt: string }> = {
+  'buy-to-let': {
+    src: '/images/brand/terrace-doors.jpg',
+    alt: 'Terraced houses with coloured front doors',
   },
-  {
-    id: 'hmo',
-    number: '02',
-    icon: TrendingUp,
-    tag: 'Yield density',
-    name: 'HMO',
-    what:
-      'Houses converted to multiple-occupation use — room-by-room lets, shared kitchen and living space. Article 4 compliant, fully licensed where required.',
-    why:
-      'A well-run HMO can produce 2–3× the gross rent of the same property let on a single AST. The trade-off is more management — which is why we run the operations ourselves rather than handing it to a third party.',
-    current: 'Hull HMO · Cash-purchased · Fully tenanted · First refinance candidate.',
+  hmo: {
+    src: '/images/brand/terrace-redbrick.jpg',
+    alt: 'A row of red-brick terraced houses',
   },
-  {
-    id: 'value-add',
-    number: '03',
-    icon: Hammer,
-    tag: 'Capital growth',
-    name: 'Value-Add Flips',
-    what:
-      'Buying undervalued stock — usually distressed, tired, or non-standard — refurbishing to a defensible spec, and selling on. Funded with bridging finance, exited inside 6–12 months.',
-    why:
-      'Generates the capital that funds the next BTL or HMO acquisition. Faster cycle than buy-and-hold. The discipline is in not falling in love with the project — every flip is sized to its exit comparable, not the refurb you wish you could do.',
-    current: 'Oldbury, Birmingham · Bridging secured · Refurb in progress.',
+  'value-add': {
+    src: '/images/brand/hero-terrace.jpg',
+    alt: 'A long terrace of brick houses on a tree-lined street',
   },
-]
-
-const filters = [
-  {
-    title: 'Area test',
-    body: 'Yields, demand, transaction velocity, exit liquidity.',
-  },
-  {
-    title: 'Property test',
-    body: 'Full survey, refurb scope, post-refurb valuation from independent comparables.',
-  },
-  {
-    title: 'Numbers test',
-    body: 'Modelled on conservative rent, 15% refurb contingency, realistic void periods, and stress-tested against a 2% rate move.',
-  },
-  {
-    title: 'Exit test',
-    body: 'Every deal has a defined Plan A and Plan B exit. If both don’t work, neither does the deal.',
-  },
-]
+}
 
 export default function WhatWeDoPage() {
   return (
     <>
-      {/* Hero — navy */}
-      <section className="navy-grid relative overflow-hidden">
-        <div className="absolute top-8 right-6 md:top-12 md:right-12 text-[120px] md:text-[200px] leading-none font-serif text-white/[0.04] select-none pointer-events-none">
-          03
+      <PageHeader
+        kicker="What we do"
+        title={
+          <>
+            We source the deals <em>we&apos;d buy ourselves.</em>
+          </>
+        }
+        intro="Buy-to-let, HMOs and refurb deals in high-yield markets across Northern England and the Midlands. We handle the legwork from search to completion."
+        crumbs={[{ label: 'What We Do' }]}
+      >
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <PillLink href={route('/deal-sourcing#enquire')}>Find Me a Deal</PillLink>
+          <PillLink href={route('/portfolio')} variant="outline" arrow={false}>
+            See Our Portfolio
+          </PillLink>
         </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-24 md:py-32">
-          <div className="mb-4 flex items-center gap-1.5 text-xs text-[var(--text-on-navy-muted)]">
-            <Link href="/" className="hover:text-[var(--gold)] transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-[var(--text-on-navy)]">What We Do</span>
-          </div>
+      </PageHeader>
 
-          <div className="max-w-3xl mt-10">
-            <p className="eyebrow-light mb-6">What we do</p>
-            <h1 className="h1 text-[var(--text-on-navy)] mb-7">
-              Three strategies, run by the <em>same hands.</em>
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--text-on-navy-muted)] leading-relaxed max-w-2xl">
-              Every Chiben deal sits in one of three buckets. Each one has its own underwriting, its own exit, and its own risk profile — but they all answer to the same rule: the numbers work before the refurb starts.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Strategy detail blocks */}
-      <section className="bg-[var(--bg-page)]">
-        <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="space-y-20 md:space-y-28">
-            {strategies.map((s, i) => (
-              <article key={s.id} id={s.id} className="scroll-mt-24">
-                <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10 md:gap-16">
-                  <div>
-                    <p className="font-serif text-6xl md:text-7xl text-[var(--accent)]/30 leading-none mb-5">
-                      {s.number}
-                    </p>
-                    <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-[10px] bg-[var(--accent-bg)]">
-                      <s.icon size={22} className="text-[var(--accent)]" />
-                    </div>
-                    <p className="eyebrow mb-3">{s.tag}</p>
-                    <h2 className="font-serif text-3xl md:text-4xl text-[var(--text-primary)]">
-                      {s.name}
-                    </h2>
-                  </div>
-
-                  <div className="space-y-7">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)] mb-2">
-                        What it is
-                      </p>
-                      <p className="text-[var(--text-secondary)] leading-relaxed text-base md:text-lg">
-                        {s.what}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)] mb-2">
-                        Why we do it
-                      </p>
-                      <p className="text-[var(--text-secondary)] leading-relaxed text-base md:text-lg">
-                        {s.why}
-                      </p>
-                    </div>
-                    <div className="rounded-card border border-[var(--border-gold)] bg-[var(--accent-bg)] p-5">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)] mb-1.5">
-                        Current deal
-                      </p>
-                      <p className="text-sm md:text-base text-[var(--text-primary)]">
-                        {s.current}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {i < strategies.length - 1 && (
-                  <div className="mt-20 md:mt-28 border-b border-[var(--border)]" />
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Underwriting — navy */}
-      <section className="navy-grid">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-2xl mb-14">
-            <p className="eyebrow-light mb-4">How we underwrite</p>
-            <h2 className="h2 text-[var(--text-on-navy)]">
-              Every deal goes through <em>the same filter.</em>
+      {/* ── Strategies ──────────────────────────────────── */}
+      <section className="bg-[var(--n-50)]" aria-labelledby="strategies">
+        <Container className="py-16 md:py-24">
+          <div className="mb-10 max-w-2xl md:mb-14">
+            <p className="kicker mb-4">What we source</p>
+            <h2 id="strategies" className="title text-[var(--text-1)]">
+              Three strategies, <em>vetted as owners.</em>
             </h2>
-            <p className="mt-5 text-[var(--text-on-navy-muted)] leading-relaxed text-lg">
-              Before Chiben buys anything, the deal has to survive:
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {filters.map((f, i) => (
-              <div
-                key={f.title}
-                className="rounded-card border border-[var(--border-on-navy)] p-7"
-                style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}
-              >
-                <p className="font-serif text-3xl text-[var(--gold)] mb-4 leading-none">
-                  0{i + 1}
-                </p>
-                <h3 className="font-serif text-xl text-[var(--text-on-navy)] mb-3">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-[var(--text-on-navy-muted)] leading-relaxed">
-                  {f.body}
-                </p>
-              </div>
-            ))}
+          <div className="flex flex-col gap-5 md:gap-6">
+            {STRATEGIES.map((s, i) => {
+              const img = strategyImages[s.id]
+              return (
+                <article
+                  key={s.id}
+                  id={s.id}
+                  className="grid scroll-mt-28 grid-cols-1 overflow-hidden rounded-xl2 border border-[var(--line)] bg-white md:grid-cols-[0.9fr_1.1fr]"
+                >
+                  <div className={`relative aspect-[16/10] md:aspect-auto md:min-h-[300px] ${i % 2 === 1 ? 'md:order-2' : ''}`}>
+                    <Image src={img.src} alt={img.alt} fill sizes="(max-width: 768px) 100vw, 45vw" className="object-cover" />
+                  </div>
+                  <div className="flex flex-col justify-center p-6 md:p-10">
+                    <span className="text-sm font-semibold text-[var(--text-3)]">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="mt-3 font-serif text-3xl leading-tight text-[var(--text-1)] md:text-4xl">
+                      {s.title}
+                    </h3>
+                    <p className="mt-3 text-base font-medium text-[var(--text-1)]">{s.body}</p>
+                    <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-2)]">{s.detail}</p>
+                  </div>
+                </article>
+              )
+            })}
           </div>
-        </div>
+        </Container>
       </section>
 
-      <CTABanner
-        eyebrow="Investor access"
-        headline={<>Want the full <em>underwriting model?</em></>}
-        body="Investors on our list receive deal-by-deal breakdowns: assumptions, comparables, projected returns and downside scenarios."
-        primary={{ label: 'Request access', href: '/invest' }}
-        secondary={{ label: 'Book a call', href: '/contact' }}
-      />
+      {/* ── How it works ────────────────────────────────── */}
+      <section className="bg-white" aria-labelledby="how-it-works">
+        <Container className="py-16 md:py-24">
+          <div className="mb-10 max-w-2xl md:mb-14">
+            <p className="kicker mb-4">How it works</p>
+            <h2 id="how-it-works" className="title text-[var(--text-1)]">
+              From first call to <em>completion.</em>
+            </h2>
+          </div>
+          <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {STEPS.map((s, i) => (
+              <li key={s.title} className="flex flex-col rounded-xl2 border border-[var(--line)] bg-[var(--n-50)] p-6 md:p-7">
+                <span className="font-serif text-5xl leading-none text-[var(--brand-blue)]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-8 text-lg font-semibold leading-snug text-[var(--text-1)]">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--text-2)]">{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      {/* ── How we vet ──────────────────────────────────── */}
+      <section className="bg-[var(--n-50)]" aria-labelledby="how-we-vet">
+        <Container className="py-16 md:py-24">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+            <div>
+              <p className="kicker mb-4">How we vet a deal</p>
+              <h2 id="how-we-vet" className="title text-[var(--text-1)]">
+                Four tests before a deal <em>reaches you.</em>
+              </h2>
+              <p className="mt-5 max-w-md text-base leading-relaxed text-[var(--text-2)] md:text-lg">
+                Every deal pack uses conservative assumptions, not best case. If a deal fails any
+                test, we don&apos;t send it.
+              </p>
+            </div>
+            <ul className="flex flex-col border-t border-[var(--line)]">
+              {VETTING.map((v, i) => (
+                <li key={v.title} className="grid grid-cols-[44px_1fr] gap-4 border-b border-[var(--line)] py-6 md:py-7">
+                  <span className="pt-1 text-sm font-semibold text-[var(--text-3)]">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-2xl leading-tight text-[var(--text-1)] md:text-[28px]">{v.title}</h3>
+                    <p className="mt-2 text-base leading-relaxed text-[var(--text-2)]">{v.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+
+      <ClosingCta />
     </>
   )
 }

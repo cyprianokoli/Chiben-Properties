@@ -2,8 +2,8 @@ import type { LegalHrefs, LegalLayout } from './types'
 
 const LAST_UPDATED = '18 May 2026'
 
-// Shared by the live /terms page and the redesigned preview page, so the
-// legal text only lives in one place.
+// Legal text for the /terms page. Layout is passed in so the wrapper can change
+// without touching the policy wording.
 export default function TermsDocument({ Layout, hrefs }: { Layout: LegalLayout; hrefs: LegalHrefs }) {
   return (
     <Layout

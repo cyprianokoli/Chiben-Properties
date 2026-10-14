@@ -1,354 +1,208 @@
-import Link from 'next/link'
-import { ArrowRight, TrendingUp, Building2, Hammer } from 'lucide-react'
+import Image from 'next/image'
 import type { Metadata } from 'next'
-import Button from '@/components/ui/Button'
-import CTABanner from '@/components/ui/CTABanner'
-import { createClient } from '@/lib/supabase/server'
+import PillLink from '@/components/ui/PillLink'
+import PropertyShowcase from '@/components/properties/PropertyShowcase'
+import Container from '@/components/site/Container'
+import ClosingCta from '@/components/site/ClosingCta'
+import WhyChiben from '@/components/site/WhyChiben'
+import { getProperties } from '@/lib/properties'
+import { STEPS, STRATEGIES } from '@/lib/content'
+import { route } from '@/lib/routes'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Chiben Properties — UK Property Investment',
+  title: { absolute: 'Chiben Properties | UK Property Deal Sourcing for Investors' },
   description:
-    'UK property investment company acquiring residential assets across Northern England. Live deals across high-yield Northern markets. One disciplined strategy.',
+    'We find, vet and secure buy-to-let, HMO and refurb deals for UK and overseas investors across Northern England and the Midlands.',
 }
 
-const MIN_DEALS = 3
+const HOMEPAGE_LIMIT = 6
+const CTA_HREF = route('/deal-sourcing#enquire')
 
-async function getLiveDealsCount(): Promise<number> {
-  try {
-    const supabase = createClient()
-    const { count } = await supabase
-      .from('properties')
-      .select('*', { count: 'exact', head: true })
-    return Math.max(MIN_DEALS, count ?? 0)
-  } catch {
-    return MIN_DEALS
-  }
-}
-
-const strategies = [
-  {
-    icon: Building2,
-    eyebrow: 'Recurring Income',
-    title: 'Buy-to-Let',
-    body: 'Long-let residential in high-yield markets across Northern England. Stable tenants, above-average gross yields, financed for hold.',
-  },
-  {
-    icon: TrendingUp,
-    eyebrow: 'Yield Density',
-    title: 'HMO',
-    body: 'Converting the right stock into well-run Houses in Multiple Occupation. Higher rent per property, tighter management, stronger cash-on-cash returns.',
-  },
-  {
-    icon: Hammer,
-    eyebrow: 'Capital Growth',
-    title: 'Value-Add Flips',
-    body: 'Buying below market, refurbishing to a spec the comparables can defend, and exiting at a price the numbers were underwritten for from day one.',
-  },
-]
-
-const markets = [
-  {
-    name: 'Hull',
-    summary:
-      'HMO market, strong tenant demand, the kind of cash-on-cash you can’t find south of the M25.',
-  },
-  {
-    name: 'Oldbury, Birmingham',
-    summary:
-      'Refurb-to-resale stock, defensible comparables, fast transaction velocity.',
-  },
-  {
-    name: 'Stoke-on-Trent',
-    summary:
-      'BTL with corporate tenancies. Predictable rent, low management overhead.',
-  },
-]
-
-const deals = [
-  {
-    number: '01',
-    title: 'Hull HMO',
-    tag: 'HMO · Live',
-    body:
-      'Cash-purchased, fully tenanted. Strongest yield in the portfolio and our first refinance candidate.',
-  },
-  {
-    number: '02',
-    title: 'Oldbury Flip',
-    tag: 'Flip · Active',
-    body:
-      'Bridging in, refurb underway. Targeting resale on completion of works.',
-  },
-  {
-    number: '03',
-    title: 'Stoke BTL',
-    tag: 'BTL · In progress',
-    body:
-      'Let to a care home operator on a fixed monthly rent. Mortgage in progress.',
-  },
-]
-
-const pillars = [
-  {
-    title: 'Underwriting first.',
-    body: 'Every deal modelled on conservative assumptions — not best case.',
-  },
-  {
-    title: 'Skin in the game.',
-    body: 'Founder capital is in every deal we ask others to back.',
-  },
-  {
-    title: 'Operator, not broker.',
-    body: 'We hold and run what we buy. Our returns and yours come from the same place.',
-  },
-  {
-    title: 'Transparent reporting.',
-    body: 'Quarterly updates on every JV. No silence between investment and exit.',
-  },
+const stats = [
+  { value: '1 HMO', label: 'owned and run in Hull' },
+  { value: 'Oct 2025', label: 'Founded' },
 ]
 
 export default async function HomePage() {
-  const dealCount = await getLiveDealsCount()
-  const dealCountLabel = `${dealCount}+`
-
-  const stats = [
-    { value: dealCountLabel, label: 'Live Deals' },
-    { value: '3', label: 'UK Markets' },
-    { value: '£1M+', label: 'Target Portfolio' },
-    { value: 'Oct 2025', label: 'Founded' },
-  ]
+  const { properties } = await getProperties({ limit: HOMEPAGE_LIMIT })
 
   return (
     <>
-      {/* Hero — navy */}
-      <section className="navy-grid relative overflow-hidden">
-        <div className="absolute top-8 right-6 md:top-12 md:right-12 text-[120px] md:text-[200px] leading-none font-serif text-white/[0.04] select-none pointer-events-none">
-          01
-        </div>
-        <div className="relative mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-24 md:py-36">
-          <div className="max-w-3xl">
-            <p className="eyebrow-light mb-6">
-              Chiben Properties Ltd · Est. Oct 2025
-            </p>
-            <h1 className="h1 text-[var(--text-on-navy)] mb-7">
-              A UK property company built for <em>income</em> — and for <em>scale</em>.
-            </h1>
-            <p className="text-lg md:text-xl text-[var(--text-on-navy-muted)] leading-relaxed mb-10 max-w-2xl">
-              We acquire, refurbish and hold residential assets in high-yield Northern markets. {dealCountLabel} live deals. One disciplined strategy. Open to investors and JV partners.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/invest">
-                <button
-                  className="inline-flex h-[52px] items-center justify-center gap-2 rounded-btn px-8 font-semibold text-base transition-all hover:bg-[var(--gold-hover)]"
-                  style={{ backgroundColor: 'var(--gold)', color: 'var(--navy-deep)' }}
-                >
-                  Invest With Us <ArrowRight size={18} />
-                </button>
-              </Link>
-              <Link href="/portfolio">
-                <button
-                  className="inline-flex h-[52px] items-center justify-center gap-2 rounded-btn px-8 font-semibold text-base transition-all hover:bg-white/5"
-                  style={{
-                    border: '1px solid var(--border-on-navy)',
-                    color: 'var(--text-on-navy)',
-                  }}
-                >
-                  See the Portfolio
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats strip */}
-        <div className="relative border-t border-[var(--border-on-navy)]">
-          <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 grid grid-cols-2 gap-8 md:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <p className="font-serif text-3xl md:text-5xl text-[var(--gold)] mb-1.5 leading-none">
-                  {s.value}
-                </p>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-on-navy-muted)]">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Strategies */}
-      <section className="bg-[var(--bg-page)]">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-2xl mb-14">
-            <p className="eyebrow mb-4">What we do</p>
-            <h2 className="h2 text-[var(--text-primary)] mb-5">
-              Three strategies. <em>One outcome.</em>
-            </h2>
-            <p className="text-[var(--text-secondary)] leading-relaxed text-lg">
-              Every asset we buy has to do one of three things: produce monthly income, multiply rent per square foot, or turn refurb spend into resale margin. If a deal doesn&apos;t fit, we walk.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {strategies.map((s) => (
-              <div
-                key={s.title}
-                className="rounded-card border border-[var(--border)] bg-[var(--bg-surface)] p-8 hover:border-[var(--border-gold)] hover:-translate-y-1 transition-all duration-200"
-              >
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-[10px] bg-[var(--accent-bg)]">
-                  <s.icon size={24} className="text-[var(--accent)]" />
-                </div>
-                <p className="eyebrow mb-3">{s.eyebrow}</p>
-                <h3 className="font-serif text-2xl text-[var(--text-primary)] mb-4">
-                  {s.title}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                  {s.body}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12">
-            <Link
-              href="/what-we-do"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)] hover:gap-3 transition-all"
-            >
-              See how each strategy works <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Markets — navy */}
-      <section className="navy-grid">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="max-w-2xl mb-14">
-            <p className="eyebrow-light mb-4">Where we operate</p>
-            <h2 className="h2 text-[var(--text-on-navy)] mb-5">
-              Northern markets. <em>Picked deliberately.</em>
-            </h2>
-            <p className="text-[var(--text-on-navy-muted)] leading-relaxed text-lg">
-              We don&apos;t chase postcodes — we follow yield, demand, and exit liquidity. Right now that means three towns.
-            </p>
-          </div>
-
-          <div className="border-t border-[var(--border-on-navy)]">
-            {markets.map((m, i) => (
-              <div
-                key={m.name}
-                className="grid grid-cols-[40px_1fr] md:grid-cols-[80px_280px_1fr] gap-6 md:gap-10 items-start py-8 md:py-10 border-b border-[var(--border-on-navy)]"
-              >
-                <p className="font-serif text-2xl md:text-4xl text-[var(--gold)]/40 leading-none">
-                  0{i + 1}
-                </p>
-                <h3 className="font-serif text-2xl md:text-3xl text-[var(--text-on-navy)]">
-                  {m.name}
-                </h3>
-                <p className="text-[var(--text-on-navy-muted)] leading-relaxed text-base md:text-lg md:max-w-xl col-span-2 md:col-span-1">
-                  {m.summary}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10">
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--gold)] hover:gap-3 transition-all"
-            >
-              See live deals <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Active portfolio */}
-      <section className="bg-[var(--bg-page)]">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="flex flex-col gap-4 mb-12 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-xl">
-              <p className="eyebrow mb-4">Active portfolio</p>
-              <h2 className="h2 text-[var(--text-primary)]">
-                {dealCountLabel} deals. <em>All in motion.</em>
-              </h2>
-            </div>
-            <Link
-              href="/portfolio"
-              className="flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] hover:gap-3 transition-all whitespace-nowrap"
-            >
-              Full portfolio <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {deals.map((d) => (
-              <div
-                key={d.title}
-                className="rounded-card border border-[var(--border)] bg-[var(--bg-surface)] p-8 hover:border-[var(--border-gold)] hover:-translate-y-1 transition-all duration-200"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <p className="font-serif text-4xl text-[var(--accent)]/50 leading-none">
-                    {d.number}
-                  </p>
-                  <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--accent)] border border-[var(--border-gold)] rounded-full px-3 py-1.5">
-                    {d.tag}
-                  </span>
-                </div>
-                <h3 className="font-serif text-2xl text-[var(--text-primary)] mb-3">
-                  {d.title}
-                </h3>
-                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                  {d.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Chiben */}
-      <section className="bg-[var(--bg-surface)] border-y border-[var(--border-soft)]">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-20 md:py-28">
-          <div className="grid grid-cols-1 gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20 lg:items-start">
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section className="bg-white">
+        <Container className="pt-10 pb-12 md:pt-16 md:pb-20">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.45fr_1fr] lg:items-end lg:gap-16">
             <div>
-              <p className="eyebrow mb-4">Why Chiben</p>
-              <h2 className="h2 text-[var(--text-primary)] mb-6">
-                A small operation that does the <em>boring things right.</em>
-              </h2>
-              <Link href="/about">
-                <Button variant="secondary">
-                  More about us <ArrowRight size={16} />
-                </Button>
-              </Link>
+              <p className="kicker mb-6">Chiben Properties Ltd · Manchester · Est. 2025</p>
+              <h1 className="display text-[var(--text-1)]">
+                We find, vet and secure UK property
+                <span
+                  aria-hidden
+                  className="relative mx-2 hidden h-[0.78em] w-[1.9em] translate-y-[0.06em] overflow-hidden rounded-full align-baseline ring-1 ring-[var(--line)] sm:inline-block"
+                >
+                  <Image
+                    src="/images/brand/terrace-redbrick.jpg"
+                    alt=""
+                    fill
+                    sizes="140px"
+                    className="object-cover"
+                  />
+                </span>{' '}
+                for investors, <em>at home and abroad.</em>
+              </h1>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
-              {pillars.map((p) => (
-                <div key={p.title}>
-                  <h3 className="font-serif text-xl text-[var(--text-primary)] mb-2">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                    {p.body}
+            <div className="lg:pb-2">
+              <p className="text-base leading-relaxed text-[var(--text-2)] md:text-lg">
+                Buy-to-let, HMOs and refurb deals in high-yield markets across Northern England and
+                the Midlands. We source the deals we&apos;d buy ourselves, and we handle the legwork
+                from search to completion.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <PillLink href={CTA_HREF} size="md">
+                  Find Me a Deal
+                </PillLink>
+                <PillLink href={route('/portfolio')} variant="outline" size="md" arrow={false}>
+                  See Our Portfolio
+                </PillLink>
+              </div>
+            </div>
+          </div>
+
+          {/* Hero image + stats tab */}
+          <div className="relative mt-10 md:mt-14">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl2 sm:aspect-[16/9] md:rounded-xl3 lg:aspect-[21/9]">
+              <Image
+                src="/images/brand/hero-terrace.jpg"
+                alt="A row of traditional brick terraced houses on a tree-lined English street"
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1216px"
+                className="object-cover object-[center_60%]"
+              />
+            </div>
+
+            <div className="notch hidden md:flex md:gap-10 md:pl-8 md:pt-6 lg:gap-14 lg:pl-10 lg:pt-7">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <p className="font-serif text-4xl leading-none text-[var(--text-1)] lg:text-5xl">
+                    {s.value}
                   </p>
+                  <p className="mt-2 text-sm text-[var(--text-2)]">{s.label}</p>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+
+          {/* Stats on mobile */}
+          <div className="mt-4 grid grid-cols-2 gap-3 md:hidden">
+            {stats.map((s) => (
+              <div key={s.label} className="rounded-2xl bg-[var(--n-50)] p-4">
+                <p className="font-serif text-[28px] leading-none text-[var(--text-1)]">{s.value}</p>
+                <p className="mt-2 text-sm text-[var(--text-2)]">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
       </section>
 
-      <CTABanner
-        eyebrow="Get the numbers"
-        headline={<>Want to see the <em>numbers?</em></>}
-        body="We share full underwriting on request — deal-by-deal projections, comparables, refurb scope and exit assumptions. If you're looking to deploy capital into UK residential, let's talk."
-        primary={{ label: 'Book a Call', href: '/contact' }}
-        secondary={{ label: 'Email Us', href: 'mailto:info@chibenproperties.com' }}
-      />
+      {/* ── Track record (properties) ────────────────────── */}
+      {properties.length > 0 && (
+        <section className="bg-[var(--n-50)]" aria-labelledby="track-record">
+          <Container className="py-16 md:py-24">
+            <div className="mb-10 flex flex-col gap-6 md:mb-12 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl">
+                <p className="kicker mb-4">Our track record</p>
+                <h2 id="track-record" className="title text-[var(--text-1)]">
+                  Deals we&apos;ve <em>bought ourselves.</em>
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-[var(--text-2)] md:text-lg">
+                  Real figures only. We add new deals once they complete.
+                </p>
+              </div>
+              <PillLink href={route('/portfolio')} variant="outline" size="md" className="self-start md:self-auto">
+                View Portfolio
+              </PillLink>
+            </div>
+
+            <PropertyShowcase properties={properties} />
+          </Container>
+        </section>
+      )}
+
+      {/* ── How it works ─────────────────────────────────── */}
+      <section className="bg-white" aria-labelledby="how-it-works">
+        <Container className="py-16 md:py-24">
+          <div className="mb-10 max-w-2xl md:mb-14">
+            <p className="kicker mb-4">How it works</p>
+            <h2 id="how-it-works" className="title text-[var(--text-1)]">
+              From first call to <em>completion.</em>
+            </h2>
+          </div>
+
+          <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {STEPS.map((s, i) => (
+              <li
+                key={s.title}
+                className="flex flex-col rounded-xl2 border border-[var(--line)] bg-[var(--n-50)] p-6 md:p-7"
+              >
+                <span className="font-serif text-5xl leading-none text-[var(--brand-blue)]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-8 text-lg font-semibold leading-snug text-[var(--text-1)]">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--text-2)]">{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      {/* ── What we source ───────────────────────────────── */}
+      <section className="bg-[var(--n-50)]" aria-labelledby="what-we-source">
+        <Container className="py-16 md:py-24">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="flex flex-col">
+              <p className="kicker mb-4">What we source</p>
+              <h2 id="what-we-source" className="title text-[var(--text-1)]">
+                Three strategies, <em>vetted as owners.</em>
+              </h2>
+              <div className="relative mt-8 aspect-[16/10] overflow-hidden rounded-xl2 lg:mt-10 lg:aspect-auto lg:flex-1 lg:min-h-[320px]">
+                <Image
+                  src="/images/brand/terrace-doors.jpg"
+                  alt="Georgian terraced houses with coloured front doors"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            <ul className="flex flex-col border-t border-[var(--line)] lg:self-end">
+              {STRATEGIES.map((s, i) => (
+                <li key={s.title} className="grid grid-cols-[44px_1fr] gap-4 border-b border-[var(--line)] py-7 md:py-9">
+                  <span className="pt-1.5 text-sm font-semibold text-[var(--text-3)]">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 className="font-serif text-[28px] leading-tight text-[var(--text-1)] md:text-[32px]">
+                      {s.title}
+                    </h3>
+                    <p className="mt-2 text-base leading-relaxed text-[var(--text-2)]">{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </section>
+
+      <WhyChiben />
+
+      <ClosingCta flushTop />
     </>
   )
 }

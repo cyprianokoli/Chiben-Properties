@@ -135,7 +135,7 @@ export default function PortfolioCardPreview(props: Props) {
               <p
                 style={{
                   fontFamily: 'var(--font-serif), Georgia, serif',
-                  color: 'rgba(201, 169, 110, 0.7)',
+                  color: 'rgba(91, 155, 255, 0.7)',
                   fontSize: 'clamp(40px, 5vw, 64px)',
                   lineHeight: 1,
                 }}
@@ -244,7 +244,7 @@ export default function PortfolioCardPreview(props: Props) {
                       >
                         <span
                           className="mt-2 inline-block h-1 w-1 flex-shrink-0 rounded-full"
-                          style={{ backgroundColor: '#C9A96E' }}
+                          style={{ backgroundColor: '#5B9BFF' }}
                         />
                         {f}
                       </li>

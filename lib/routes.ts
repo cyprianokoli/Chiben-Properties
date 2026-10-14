@@ -1,7 +1,7 @@
-// The redesigned pages are being reviewed under /preview before they replace
-// the live pages. Every link inside the new design goes through route(), so
-// moving them to their real slugs only means setting SITE_BASE to ''.
-export const SITE_BASE = '/preview'
+// Every internal link in the site goes through route(). SITE_BASE is '' now
+// that the redesign is live; set it to a path prefix (e.g. '/preview') to
+// stage a future redesign alongside the live pages.
+export const SITE_BASE = ''
 
 export function route(path: string): string {
   if (path === '/' || path === '') return SITE_BASE || '/'

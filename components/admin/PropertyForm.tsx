@@ -211,7 +211,7 @@ export default function PropertyForm({ property }: Props) {
         >
           <div
             className="flex h-16 w-16 items-center justify-center rounded-full"
-            style={{ background: 'rgba(201,169,110,0.12)', border: '1px solid rgba(201,169,110,0.3)' }}
+            style={{ background: 'rgba(0,57,164,0.08)', border: '1px solid rgba(0,57,164,0.25)' }}
           >
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />

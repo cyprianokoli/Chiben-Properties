@@ -18,13 +18,13 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chibenproperties.com"),
+  metadataBase: new URL("https://www.chibenproperties.com"),
   title: {
-    default: "Chiben Properties — UK Property Investment",
+    default: "Chiben Properties | UK Property Deal Sourcing for Investors",
     template: "%s | Chiben Properties",
   },
   description:
-    "Chiben Properties Ltd is a UK property investment company acquiring residential assets across Northern England. Income-first. Growth-focused.",
+    "We find, vet and secure buy-to-let, HMO and refurb deals for UK and overseas investors across Northern England and the Midlands.",
   openGraph: {
     siteName: "Chiben Properties",
     images: ["/images/og/og-default.png"],

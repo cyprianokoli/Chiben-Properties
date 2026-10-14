@@ -65,9 +65,9 @@ export default function AdminShell() {
               href={href}
               className="flex items-center gap-3 px-3 py-3 md:py-2.5 rounded-[8px] text-sm font-medium transition-all duration-150"
               style={{
-                color: isActive ? '#C9A96E' : '#9B9CA6',
-                background: isActive ? 'rgba(201,169,110,0.08)' : 'transparent',
-                borderLeft: isActive ? '3px solid #C9A96E' : '3px solid transparent',
+                color: isActive ? '#5B9BFF' : '#9B9CA6',
+                background: isActive ? 'rgba(91,155,255,0.10)' : 'transparent',
+                borderLeft: isActive ? '3px solid #5B9BFF' : '3px solid transparent',
               }}
             >
               <Icon className="h-5 w-5 md:h-4 md:w-4 flex-shrink-0" />
@@ -106,7 +106,7 @@ export default function AdminShell() {
         style={{ background: '#1A1D27', borderRight: '1px solid rgba(255,255,255,0.08)', zIndex: 50 }}
       >
         <div className="flex items-center px-6 h-16 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <Image src="/images/logo/logo-white.svg" alt="Chiben Properties" width={130} height={40} priority />
+          <Image src="/images/logo/logo-horizontal-light.png" alt="Chiben Properties" width={136} height={36} priority />
         </div>
         {sidebarContent}
       </aside>
@@ -150,14 +150,14 @@ export default function AdminShell() {
           <Menu className="h-5 w-5" />
         </button>
 
-        <Image src="/images/logo/logo-white.svg" alt="Chiben Properties" width={110} height={34} priority />
+        <Image src="/images/logo/logo-horizontal-light.png" alt="Chiben Properties" width={113} height={30} priority />
 
         <div className="flex items-center gap-1">
           {showAddButton && (
             <Link href="/admin/properties/new">
               <button
                 className="flex h-9 w-9 items-center justify-center rounded-[8px]"
-                style={{ background: '#C9A96E', color: '#0F1117' }}
+                style={{ background: '#5B9BFF', color: '#0F1117' }}
                 aria-label="Add property"
               >
                 <Plus className="h-4 w-4" />
@@ -183,7 +183,7 @@ export default function AdminShell() {
         style={{ background: '#1A1D27', borderRight: '1px solid rgba(255,255,255,0.08)', zIndex: 70 }}
       >
         <div className="flex items-center justify-between px-5 h-14 flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <Image src="/images/logo/logo-white.svg" alt="Chiben Properties" width={120} height={38} priority />
+          <Image src="/images/logo/logo-horizontal-light.png" alt="Chiben Properties" width={128} height={34} priority />
           <button
             onClick={() => setMenuOpen(false)}
             className="flex h-9 w-9 items-center justify-center rounded-[8px]"

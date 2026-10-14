@@ -13,9 +13,3 @@ export interface LegalHrefs {
   terms: string
   cookies: string
 }
-
-export const LIVE_LEGAL_HREFS: LegalHrefs = {
-  privacy: '/privacy',
-  terms: '/terms',
-  cookies: '/cookies',
-}

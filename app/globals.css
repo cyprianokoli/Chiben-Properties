@@ -23,18 +23,18 @@
   --text-on-dark-2:     rgba(243, 244, 247, 0.68);
   --whatsapp:           #25D366;
 
-  /* Legacy palette — navy / cream / gold (pages not yet redesigned) */
+  /* Admin palette: older token names, now mapped onto the brand colours */
   --navy-deep:          #0F1E47;
   --navy:               #14224F;
   --navy-soft:          #1B2A5E;
 
-  --cream:              #F5F1E8;
-  --cream-soft:         #FBF8F1;
-  --cream-warm:         #EFE9DA;
+  --cream:              #F5F6F8;
+  --cream-soft:         #FBFBFC;
+  --cream-warm:         #ECEEF2;
 
-  --gold:               #C9A96E;
-  --gold-hover:         #D4B87E;
-  --gold-deep:          #B8923A;
+  --gold:               #5B9BFF;
+  --gold-hover:         #7FB2FF;
+  --gold-deep:          #0039A4;
 
   /* Semantic tokens — light surfaces on top, navy used for hero/footer bands */
   --bg-page:            var(--cream);
@@ -45,7 +45,7 @@
 
   --border:             rgba(15, 30, 71, 0.12);
   --border-soft:        rgba(15, 30, 71, 0.06);
-  --border-gold:        rgba(201, 169, 110, 0.45);
+  --border-gold:        rgba(0, 57, 164, 0.35);
   --border-on-navy:     rgba(255, 255, 255, 0.14);
 
   --text-primary:       #0F1E47;
@@ -54,12 +54,12 @@
   --text-on-navy:       #F5F1E8;
   --text-on-navy-muted: rgba(245, 241, 232, 0.65);
 
-  --accent:             var(--gold);
-  --accent-hover:       var(--gold-hover);
-  --accent-bg:          rgba(201, 169, 110, 0.10);
+  --accent:             var(--brand-blue);
+  --accent-hover:       var(--brand-blue-hover);
+  --accent-bg:          var(--brand-blue-bg);
 
-  --btn-primary-bg:     var(--gold);
-  --btn-primary-text:   #0F1E47;
+  --btn-primary-bg:     var(--brand-blue);   /* admin buttons sit on dark bars, so blue rather than ink */
+  --btn-primary-text:   #FFFFFF;
   --btn-ghost-bg:       rgba(15, 30, 71, 0.04);
   --btn-ghost-text:     var(--navy);
   --btn-ghost-border:   rgba(15, 30, 71, 0.14);
@@ -156,7 +156,7 @@ body {
 
 .navy-radial {
   background:
-    radial-gradient(ellipse at top right, rgba(201, 169, 110, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at top right, rgba(91, 155, 255, 0.10) 0%, transparent 55%),
     var(--navy);
 }
 
